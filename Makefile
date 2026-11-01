@@ -3,10 +3,20 @@ SUBPROJECTS := kaulogo kaucolors kaurubriker kau-style kau-firstpage beamertheme
 TEXMFHOME ?= $(HOME)/Library/texmf
 
 # sola-floral builds on beamer-floral and the krissen/tikz-flora fork.
-BEAMER_FLORAL ?= $(HOME)/dev/beamer-floral
-TIKZFLORA ?= $(HOME)/dev/tikz-flora
-export TEXINPUTS := $(BEAMER_FLORAL)//:$(TIKZFLORA)/tex//:$(TEXINPUTS)
+# Local checkouts are optional and belong in an untracked local.mk:
+#   BEAMER_FLORAL := /path/to/beamer-floral
+#   TIKZFLORA := /path/to/tikz-flora
+BEAMER_FLORAL ?=
+TIKZFLORA ?=
+-include local.mk
+
+ifneq ($(strip $(BEAMER_FLORAL)),)
+export TEXINPUTS := $(BEAMER_FLORAL)//:$(TEXINPUTS)
+endif
+ifneq ($(strip $(TIKZFLORA)),)
+export TEXINPUTS := $(TIKZFLORA)/tex//:$(TEXINPUTS)
 export FLORA_LUA := $(TIKZFLORA)/lua
+endif
 CHECKTEXMF := $(CURDIR)/.check-texmf
 
 .DEFAULT_GOAL := check

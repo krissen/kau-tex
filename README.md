@@ -24,6 +24,16 @@ The themes require `kau-style` (which loads `kaucolors`); no theme defines
 its own `kaugul` or depends on `craneorange`. `tangocolors` (TeX Live) is
 used by the poster themes.
 
+`sola-floral` bygger på `beamer-floral` och `krissen/tikz-flora`. För lokal
+kontroll kan en icke versionshanterad `local.mk` peka ut lokala checkouts:
+
+```make
+BEAMER_FLORAL := /path/to/beamer-floral
+TIKZFLORA := /path/to/tikz-flora
+```
+
+Utan `local.mk` används de kopior som finns installerade i TeX-trädet.
+
 Section dividers are opt-in:
 
 ```tex

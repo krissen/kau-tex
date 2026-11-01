@@ -1,0 +1,35 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: flora loaded
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 2: kaugul
+============================================================
+0.96863,0.81961,0.09021
+============================================================
+============================================================
+TEST 3: background band
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 4: margins switch
+============================================================
+TRUE
+============================================================
+flora: 3947 painted objects
+flora: page 1 coverage 0.71 [1
+]
+\tf@nav=\write...
+\tf@toc=\write...
+\tf@snm=\write...
+(solafloral.aux)
+Package rerunfilecheck Warning: File `solafloral.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+Package rerunfilecheck Info: Checksums for `solafloral.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.

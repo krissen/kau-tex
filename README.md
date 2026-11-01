@@ -18,6 +18,7 @@ ansvar.
 | `kau-firstpage` | `kau-firstpage` | logo/footer/first-page helpers for text classes, plus the legacy `\kaustyle*` wrappers |
 | `beamerthemeSola` | `beamerthemeSola`, `beamerthemeSingaporeKAU` | miniframes, yellow header shading, title page with logo and extra logos; `SingaporeKAU` is a compatibility wrapper |
 | `beamerthemeKAUposter` | `beamerthemeKAUposter`, `beamerthemeKAUposterNOLOGO` | poster themes; the NOLOGO variant builds on the main theme |
+| `sola-floral` | `sola-floral` | Sola adaptation of `beamer-floral`; requires the krissen/tikz-flora fork |
 
 The themes require `kau-style` (which loads `kaucolors`); no theme defines
 its own `kaugul` or depends on `craneorange`. `tangocolors` (TeX Live) is

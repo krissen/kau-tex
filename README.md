@@ -1,12 +1,17 @@
 # kau-tex
 
-Karlstads universitet LaTeX packages. Public repository.
+LaTeX-paket för att efterlikna Karlstads universitets grafiska profil.
+
+Det här är mina personliga anpassningar, inte ett officiellt KAU-paket och
+inte kanoniskt för någon annan. Jag strävar efter att följa KAU:s grafiska
+profil men gör medvetna avsteg där jag finner det lämpligt; använd på eget
+ansvar.
 
 ## Implemented
 
 | Subproject | Package | Notes |
 |---|---|---|
-| `kaucolors` | `kaucolors` | canonical 2025 colour tokens |
+| `kaucolors` | `kaucolors` | 2025 profile colour tokens (best effort) |
 | `kaurubriker` | `kaurubriker`, `kau_rubriker` | heading font chain with fallbacks; `kau_rubriker` is a compatibility wrapper |
 | `kau-style` | `kau-style` | class-agnostic core: `\kausetup`, metadata, margins, logo accessors, `craneorange` compatibility |
 | `kau-firstpage` | `kau-firstpage` | logo/footer/first-page helpers for text classes, plus the legacy `\kaustyle*` wrappers |

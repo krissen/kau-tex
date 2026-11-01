@@ -1,0 +1,43 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme{Sola}
+\begin{document}
+\START
+
+\extractcolorspecs{kaugul}{\BrandModelA}{\BrandValueA}
+\extractcolorspecs{kaugul2}{\BrandModelB}{\BrandValueB}
+\extractcolorspecs{kausvart}{\BrandModelC}{\BrandValueC}
+\extractcolorspecs{kauvitt}{\BrandModelD}{\BrandValueD}
+\extractcolorspecs{kauburgundy}{\BrandModelE}{\BrandValueE}
+\extractcolorspecs{kauteal}{\BrandModelF}{\BrandValueF}
+\extractcolorspecs{kaugra}{\BrandModelG}{\BrandValueG}
+\extractcolorspecs{kaurrod}{\BrandModelH}{\BrandValueH}
+\extractcolorspecs{kaugron}{\BrandModelI}{\BrandValueI}
+\extractcolorspecs{kaugra2}{\BrandModelJ}{\BrandValueJ}
+\TESTEXP{kaugul}{\BrandValueA}
+\TESTEXP{kaugul2}{\BrandValueB}
+\TESTEXP{kausvart}{\BrandValueC}
+\TESTEXP{kauvitt}{\BrandValueD}
+\TESTEXP{kauburgundy}{\BrandValueE}
+\TESTEXP{kauteal}{\BrandValueF}
+\TESTEXP{kaugra}{\BrandValueG}
+\TESTEXP{kaurrod}{\BrandValueH}
+\TESTEXP{kaugron}{\BrandValueI}
+\TESTEXP{kaugra2}{\BrandValueJ}
+
+\TESTEXP{margin left}{\the\dimexpr\kaumargin{left}\relax}
+\TESTEXP{margin right}{\the\dimexpr\kaumargin{right}\relax}
+
+\makeatletter
+\TESTEXP{title logo on by default}{\ifbeamer@kau@titlelogo TRUE\else FALSE\fi}
+\makeatother
+
+\setbox0=\hbox{\usebeamertemplate*{logo}}
+\TESTEXP{content logo empty}{\ifdim\wd0=0pt TRUE\else FALSE\fi}
+\setbox0=\hbox{\usebeamertemplate***{navigation symbols}}
+\TESTEXP{navigation empty}{\ifdim\wd0=0pt TRUE\else FALSE\fi}
+
+\begin{frame}{Brand check}
+Body.
+\end{frame}
+\end{document}

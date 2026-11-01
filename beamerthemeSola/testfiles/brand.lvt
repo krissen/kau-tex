@@ -1,6 +1,7 @@
 \input regression-test.tex\relax
 \documentclass{beamer}
 \usetheme{Sola}
+\usecolortheme{crane}
 \newif\ifKauBundledLogo
 \IfFileExists{\kaulogo}{\KauBundledLogotrue}{\KauBundledLogofalse}
 \begin{document}

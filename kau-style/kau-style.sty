@@ -25,6 +25,8 @@
 \dim_new:N  \l_kau_margin_right_dim
 \dim_new:N  \l_kau_margin_top_dim
 \dim_new:N  \l_kau_margin_bottom_dim
+\bool_new:N \l_kau_logo_bw_set_bool
+\bool_new:N \l_kau_logo_color_set_bool
 \bool_new:N \l_kau_fonts_text_bool
 \bool_new:N \l_kau_firstpage_bool
 \bool_new:N \l_kau_firstpage_header_bool
@@ -52,8 +54,10 @@
     language .choices:nn =
       { swedish, english } { \tl_set:Nn \l_kau_language_tl {#1} },
     logo        .tl_set:N = \l_kau_logo_tl,
-    logo-bw     .tl_set:N = \l_kau_logo_bw_tl,
-    logo-color  .tl_set:N = \l_kau_logo_color_tl,
+    logo-bw     .code:n =
+      { \tl_set:Nn \l_kau_logo_bw_tl {#1} \bool_set_true:N \l_kau_logo_bw_set_bool },
+    logo-color  .code:n =
+      { \tl_set:Nn \l_kau_logo_color_tl {#1} \bool_set_true:N \l_kau_logo_color_set_bool },
     faculty     .tl_set:N = \l_kau_faculty_sv_tl,
     faculty-en  .tl_set:N = \l_kau_faculty_en_tl,
     university  .tl_set:N = \l_kau_university_tl,
@@ -114,7 +118,17 @@
     title-extra       = {},
   }
 
+\bool_set_false:N \l_kau_logo_bw_set_bool
+\bool_set_false:N \l_kau_logo_color_set_bool
 \ProcessKeyOptions[kau]
+
+% A custom \logo should not inherit the bundled monochrome/colour variants
+% unless the document set them explicitly.
+\tl_if_eq:NnF \l_kau_logo_tl {kau_logga.pdf}
+  {
+    \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
+    \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
+  }
 
 \bool_if:NT \l_kau_fonts_text_bool { \RequirePackage{kaurubriker} }
 
@@ -129,6 +143,11 @@
 \NewDocumentCommand \kausetup { m }
   {
     \keys_set:nn { kau } {#1}
+    \tl_if_eq:NnF \l_kau_logo_tl {kau_logga.pdf}
+      {
+        \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
+        \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
+      }
     \bool_if:NT \l_kau_fonts_text_bool
       {
         \@ifpackageloaded{kaurubriker}{}
@@ -185,6 +204,8 @@
   }
 
 \NewExpandableDocumentCommand \kaulogo { } { \tl_use:N \l_kau_logo_tl }
+\NewExpandableDocumentCommand \kaulogobw { } { \tl_use:N \l_kau_logo_bw_tl }
+\NewExpandableDocumentCommand \kaulogocolor { } { \tl_use:N \l_kau_logo_color_tl }
 \NewExpandableDocumentCommand \kauiflogo { m m }
   { \tl_if_empty:NTF \l_kau_logo_tl {#2} {#1} }
 

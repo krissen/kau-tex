@@ -102,6 +102,15 @@
 \renewcommand\floraoff{\solafloral@floraoff\solafloral@plainmargins}
 \makeatother
 
-\AtBeginSection[]{\floraoff\begin{frame}[plain]\sectionpage\end{frame}\floraon}
+% Sola decides whether sections get divider frames. Wrap its divider command
+% so any divider, automatic or manual, switches the margins; do not add a
+% second divider hook of our own.
+\AtBeginDocument{%
+  \ifcsname kausectionpage\endcsname
+    \let\solafloral@kausectionpage\kausectionpage
+    \RenewDocumentCommand\kausectionpage{O{}}{%
+      \floraoff\solafloral@kausectionpage[#1]\floraon}%
+  \fi
+}
 
 \endinput

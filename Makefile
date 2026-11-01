@@ -9,6 +9,7 @@ export TEXINPUTS := $(BEAMER_FLORAL)//:$(TIKZFLORA)/tex//:$(TEXINPUTS)
 export FLORA_LUA := $(TIKZFLORA)/lua
 CHECKTEXMF := $(CURDIR)/.check-texmf
 
+.DEFAULT_GOAL := check
 .PHONY: check save install clean deps
 
 # beamer-floral and tikzflora are not l3build projects of this repo; place

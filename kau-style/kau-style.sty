@@ -168,6 +168,10 @@
       { \msg_error:nnn { kau } { bad-margin } {#1} }
   }
 
+\NewExpandableDocumentCommand \kaulogo { } { \tl_use:N \l_kau_logo_tl }
+\NewExpandableDocumentCommand \kauiflogo { m m }
+  { \tl_if_empty:NTF \l_kau_logo_tl {#2} {#1} }
+
 \NewDocumentCommand \kauinsertlogo { O{width=90pt} }
   { \tl_if_empty:NF \l_kau_logo_tl { \includegraphics[#1]{\l_kau_logo_tl} } }
 \NewDocumentCommand \kauinsertlogobw { O{width=90pt} }

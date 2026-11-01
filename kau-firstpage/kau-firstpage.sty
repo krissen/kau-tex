@@ -65,9 +65,10 @@
   {
     \kauiffirstpageheader
       {
-        \tl_if_empty:NTF \l_kau_logo_tl
-          { \PackageWarning{kau-firstpage}{firstpage-header~is~true~but~no~logo~is~set} }
-          { \kaufirstpagelogo{\tl_use:N \l_kau_logo_tl} }
+        \kauiflogo
+          { \kaufirstpagelogo{\kaulogo} }
+          { \PackageWarning{kau-firstpage}{%
+              firstpage-header is true but no logo is set} }
       }{}
     \kauiffirstpagefaculty { \kaufirstpagefaculty } {}
     \kauiffirstpagefooter  { \kaufirstpagefooter }  {}

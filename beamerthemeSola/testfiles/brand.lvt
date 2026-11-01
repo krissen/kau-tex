@@ -1,6 +1,8 @@
 \input regression-test.tex\relax
 \documentclass{beamer}
 \usetheme{Sola}
+\newif\ifKauBundledLogo
+\IfFileExists{\kaulogo}{\KauBundledLogotrue}{\KauBundledLogofalse}
 \begin{document}
 \START
 
@@ -25,6 +27,7 @@
 \TESTEXP{kaugron}{\BrandValueI}
 \TESTEXP{kaugra2}{\BrandValueJ}
 
+\TESTEXP{bundled logo}{\ifKauBundledLogo TRUE\else FALSE\fi}
 \TESTEXP{margin left}{\the\dimexpr\kaumargin{left}\relax}
 \TESTEXP{margin right}{\the\dimexpr\kaumargin{right}\relax}
 

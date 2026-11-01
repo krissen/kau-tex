@@ -1,5 +1,5 @@
 SHELL := /bin/sh
-SUBPROJECTS := kaucolors kaurubriker kau-style kau-firstpage beamerthemeSola beamerthemeKAUposter
+SUBPROJECTS := kaulogo kaucolors kaurubriker kau-style kau-firstpage beamerthemeSola beamerthemeKAUposter
 TEXMFHOME ?= $(HOME)/Library/texmf
 CHECKTEXMF := $(CURDIR)/.check-texmf
 

@@ -11,6 +11,7 @@ ansvar.
 
 | Subproject | Package | Notes |
 |---|---|---|
+| `kaulogo` | `kaulogo` | bundled KAU logo files, installed in TEXMF; see `kaulogo/NOTICE.md` |
 | `kaucolors` | `kaucolors` | 2025 profile colour tokens (best effort) |
 | `kaurubriker` | `kaurubriker`, `kau_rubriker` | heading font chain with fallbacks; `kau_rubriker` is a compatibility wrapper |
 | `kau-style` | `kau-style` | class-agnostic core: `\kausetup`, metadata, margins, logo accessors, `craneorange` compatibility |
@@ -29,6 +30,11 @@ Section dividers are opt-in:
 \kausectionpage                    % or a single divider
 \kausectionpage[Custom title]      % single divider, custom title
 ```
+
+The KAU logo is bundled in `kaulogo` and installed into TEXMF, so
+`\includegraphics{kau_logga.pdf}` works from any document.
+`kau-style` defaults to it; override with `\kausetup{logo=...}`. The logo
+is a KAU trademark and is not LPPL-licensed; see `kaulogo/NOTICE.md`.
 
 Title page extras:
 

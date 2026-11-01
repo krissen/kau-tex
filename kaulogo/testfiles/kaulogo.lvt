@@ -1,0 +1,13 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kaulogo}
+\newif\ifkauLogoPdf
+\newif\ifkauLogoBw
+\IfFileExists{kau_logga.pdf}{\kauLogoPdftrue}{\kauLogoPdffalse}
+\IfFileExists{kau_logga--svartvit.pdf}{\kauLogoBwtrue}{\kauLogoBwfalse}
+\begin{document}
+\START
+\TESTEXP{colour logo}{\ifkauLogoPdf TRUE\else FALSE\fi}
+\TESTEXP{mono logo}{\ifkauLogoBw TRUE\else FALSE\fi}
+\TESTEXP{file name}{\kaulogofile}
+\end{document}

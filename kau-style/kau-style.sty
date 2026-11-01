@@ -120,15 +120,25 @@
 
 \bool_set_false:N \l_kau_logo_bw_set_bool
 \bool_set_false:N \l_kau_logo_color_set_bool
-\ProcessKeyOptions[kau]
 
-% A custom \logo should not inherit the bundled monochrome/colour variants
-% unless the document set them explicitly.
-\tl_if_eq:NnF \l_kau_logo_tl {kau_logga.pdf}
+% Compare as strings: a package option tokenises '_' with a different
+% category code than the exploded package source.
+\cs_new_protected:Nn \kau_normalise_logo_variants:
   {
-    \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
-    \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
+    \str_if_eq:onTF { \l_kau_logo_tl } {kau_logga.pdf}
+      {
+        \bool_if:NF \l_kau_logo_bw_set_bool
+          { \tl_set:Nn \l_kau_logo_bw_tl {kau_logga--svartvit.pdf} }
+        \bool_if:NF \l_kau_logo_color_set_bool
+          { \tl_set:Nn \l_kau_logo_color_tl {kau_logga.pdf} }
+      }
+      {
+        \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
+        \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
+      }
   }
+\ProcessKeyOptions[kau]
+\kau_normalise_logo_variants:
 
 \bool_if:NT \l_kau_fonts_text_bool { \RequirePackage{kaurubriker} }
 
@@ -143,11 +153,7 @@
 \NewDocumentCommand \kausetup { m }
   {
     \keys_set:nn { kau } {#1}
-    \tl_if_eq:NnF \l_kau_logo_tl {kau_logga.pdf}
-      {
-        \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
-        \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
-      }
+    \kau_normalise_logo_variants:
     \bool_if:NT \l_kau_fonts_text_bool
       {
         \@ifpackageloaded{kaurubriker}{}

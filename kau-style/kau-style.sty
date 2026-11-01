@@ -3,6 +3,7 @@
 
 \RequirePackage{kaucolors}
 \RequirePackage{graphicx}
+\RequirePackage{kaulogo}
 
 % ---------------------------------------------------------------------------
 % State
@@ -24,6 +25,8 @@
 \dim_new:N  \l_kau_margin_right_dim
 \dim_new:N  \l_kau_margin_top_dim
 \dim_new:N  \l_kau_margin_bottom_dim
+\bool_new:N \l_kau_logo_bw_set_bool
+\bool_new:N \l_kau_logo_color_set_bool
 \bool_new:N \l_kau_fonts_text_bool
 \bool_new:N \l_kau_firstpage_bool
 \bool_new:N \l_kau_firstpage_header_bool
@@ -51,8 +54,10 @@
     language .choices:nn =
       { swedish, english } { \tl_set:Nn \l_kau_language_tl {#1} },
     logo        .tl_set:N = \l_kau_logo_tl,
-    logo-bw     .tl_set:N = \l_kau_logo_bw_tl,
-    logo-color  .tl_set:N = \l_kau_logo_color_tl,
+    logo-bw     .code:n =
+      { \tl_set:Nn \l_kau_logo_bw_tl {#1} \bool_set_true:N \l_kau_logo_bw_set_bool },
+    logo-color  .code:n =
+      { \tl_set:Nn \l_kau_logo_color_tl {#1} \bool_set_true:N \l_kau_logo_color_set_bool },
     faculty     .tl_set:N = \l_kau_faculty_sv_tl,
     faculty-en  .tl_set:N = \l_kau_faculty_en_tl,
     university  .tl_set:N = \l_kau_university_tl,
@@ -88,6 +93,9 @@
   {
     profile      = 2025,
     language     = swedish,
+    logo         = {kau_logga.pdf},
+    logo-bw      = {kau_logga--svartvit.pdf},
+    logo-color   = {kau_logga.pdf},
     faculty      = {Fakulteten~för~humaniora~och~samhällsvetenskap},
     faculty-en   = {Faculty~of~Arts~and~Social~Sciences},
     university   = {Karlstads~universitet},
@@ -110,7 +118,27 @@
     title-extra       = {},
   }
 
+\bool_set_false:N \l_kau_logo_bw_set_bool
+\bool_set_false:N \l_kau_logo_color_set_bool
+
+% Compare as strings: a package option tokenises '_' with a different
+% category code than the exploded package source.
+\cs_new_protected:Nn \kau_normalise_logo_variants:
+  {
+    \str_if_eq:onTF { \l_kau_logo_tl } {kau_logga.pdf}
+      {
+        \bool_if:NF \l_kau_logo_bw_set_bool
+          { \tl_set:Nn \l_kau_logo_bw_tl {kau_logga--svartvit.pdf} }
+        \bool_if:NF \l_kau_logo_color_set_bool
+          { \tl_set:Nn \l_kau_logo_color_tl {kau_logga.pdf} }
+      }
+      {
+        \bool_if:NF \l_kau_logo_bw_set_bool { \tl_clear:N \l_kau_logo_bw_tl }
+        \bool_if:NF \l_kau_logo_color_set_bool { \tl_clear:N \l_kau_logo_color_tl }
+      }
+  }
 \ProcessKeyOptions[kau]
+\kau_normalise_logo_variants:
 
 \bool_if:NT \l_kau_fonts_text_bool { \RequirePackage{kaurubriker} }
 
@@ -125,6 +153,7 @@
 \NewDocumentCommand \kausetup { m }
   {
     \keys_set:nn { kau } {#1}
+    \kau_normalise_logo_variants:
     \bool_if:NT \l_kau_fonts_text_bool
       {
         \@ifpackageloaded{kaurubriker}{}
@@ -181,6 +210,8 @@
   }
 
 \NewExpandableDocumentCommand \kaulogo { } { \tl_use:N \l_kau_logo_tl }
+\NewExpandableDocumentCommand \kaulogobw { } { \tl_use:N \l_kau_logo_bw_tl }
+\NewExpandableDocumentCommand \kaulogocolor { } { \tl_use:N \l_kau_logo_color_tl }
 \NewExpandableDocumentCommand \kauiflogo { m m }
   { \tl_if_empty:NTF \l_kau_logo_tl {#2} {#1} }
 

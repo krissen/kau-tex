@@ -10,3 +10,4 @@ build/
 *.pdf
 .check-texmf/
 .DS_Store
+!kaulogo/*.pdf

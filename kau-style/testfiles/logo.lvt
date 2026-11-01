@@ -1,0 +1,18 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kau-style}
+\begin{document}
+\START
+\TESTEXP{default logo}{\kaulogo}
+\TESTEXP{default bw}{\kaulogobw}
+\TESTEXP{default color}{\kaulogocolor}
+\kausetup{logo={example-image-a}}
+\TESTEXP{bw cleared}{\kaulogobw}
+\TESTEXP{color cleared}{\kaulogocolor}
+\kausetup{logo={kau_logga.pdf}}
+\TESTEXP{bw restored}{\kaulogobw}
+\TESTEXP{color restored}{\kaulogocolor}
+\kausetup{logo={example-image-a},logo-bw={bw.pdf},logo-color={c.pdf}}
+\TESTEXP{bw explicit}{\kaulogobw}
+\TESTEXP{color explicit}{\kaulogocolor}
+\end{document}

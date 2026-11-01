@@ -1,0 +1,8 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage[logo=kau_logga.pdf]{kau-style}
+\begin{document}
+\START
+\TESTEXP{logo option}{\kaulogo}
+\TESTEXP{bw option}{\kaulogobw}
+\end{document}

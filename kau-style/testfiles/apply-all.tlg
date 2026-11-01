@@ -1,0 +1,24 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: heading font
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 2: hyperref
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 3: geometry
+============================================================
+TRUE
+============================================================
+(apply-all.aux)
+Package rerunfilecheck Warning: File `apply-all.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+Package rerunfilecheck Info: Checksums for `apply-all.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.

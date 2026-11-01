@@ -172,6 +172,96 @@
 \NewExpandableDocumentCommand \kauiflogo { m m }
   { \tl_if_empty:NTF \l_kau_logo_tl {#2} {#1} }
 
+% ---------------------------------------------------------------------------
+% Applying the style to text documents. Nothing happens unless asked:
+%   \kauapplystyle[all]
+%   \kauapplystyle[headings,margins]
+%   \kauapplystyle[links]
+% ---------------------------------------------------------------------------
+\bool_new:N \l_kau_apply_headings_bool
+\bool_new:N \l_kau_apply_margins_bool
+\bool_new:N \l_kau_apply_links_bool
+\bool_new:N \l_kau_apply_fonts_bool
+
+\keys_define:nn { kau/apply }
+  {
+    all .code:n =
+      {
+        \bool_set_true:N \l_kau_apply_headings_bool
+        \bool_set_true:N \l_kau_apply_margins_bool
+        \bool_set_true:N \l_kau_apply_links_bool
+        \bool_set_true:N \l_kau_apply_fonts_bool
+      },
+    none .code:n =
+      {
+        \bool_set_false:N \l_kau_apply_headings_bool
+        \bool_set_false:N \l_kau_apply_margins_bool
+        \bool_set_false:N \l_kau_apply_links_bool
+        \bool_set_false:N \l_kau_apply_fonts_bool
+      },
+    headings .bool_set:N = \l_kau_apply_headings_bool,
+    margins  .bool_set:N = \l_kau_apply_margins_bool,
+    links    .bool_set:N = \l_kau_apply_links_bool,
+    fonts    .bool_set:N = \l_kau_apply_fonts_bool,
+    unknown .code:n =
+      { \msg_warning:nnx { kau } { unknown-key } { \l_keys_key_str } },
+  }
+
+\msg_new:nnn { kau } { apply-beamer-skip }
+  { '#1'~is~not~applied~to~beamer;~the~theme~owns~the~layout. }
+
+\NewDocumentCommand \kauapplystyle { O{all} }
+  {
+    \bool_set_false:N \l_kau_apply_headings_bool
+    \bool_set_false:N \l_kau_apply_margins_bool
+    \bool_set_false:N \l_kau_apply_links_bool
+    \bool_set_false:N \l_kau_apply_fonts_bool
+    \keys_set:nn { kau/apply } {#1}
+
+    \bool_if:NT \l_kau_apply_links_bool
+      {
+        \RequirePackage{hyperref}
+        \hypersetup
+          {
+            colorlinks = true,
+            linkcolor  = kaulank,
+            urlcolor   = kaulank,
+            citecolor  = kaucite,
+            pdfborder  = {0~0~0},
+          }
+      }
+
+    \cs_if_exist:cTF { ver@beamer.cls }
+      {
+        \bool_if:NT \l_kau_apply_fonts_bool
+          { \msg_warning:nnn { kau } { apply-beamer-skip } { fonts } }
+        \bool_if:NT \l_kau_apply_headings_bool
+          { \msg_warning:nnn { kau } { apply-beamer-skip } { headings } }
+        \bool_if:NT \l_kau_apply_margins_bool
+          { \msg_warning:nnn { kau } { apply-beamer-skip } { margins } }
+      }
+      {
+        \bool_if:NT \l_kau_apply_fonts_bool
+          { \RequirePackage{kaurubriker} }
+        \bool_if:NT \l_kau_apply_headings_bool
+          {
+            \@ifpackageloaded{kaurubriker}{}{\RequirePackage{kaurubriker}}
+          }
+        \bool_if:NT \l_kau_apply_margins_bool
+          {
+            \RequirePackage{geometry}
+            \geometry
+              {
+                left   = \kaumargin{left},
+                right  = \kaumargin{right},
+                top    = \kaumargin{top},
+                bottom = \kaumargin{bottom},
+              }
+          }
+      }
+  }
+\@onlypreamble\kauapplystyle
+
 \NewDocumentCommand \kauinsertlogo { O{width=90pt} }
   { \tl_if_empty:NF \l_kau_logo_tl { \includegraphics[#1]{\l_kau_logo_tl} } }
 \NewDocumentCommand \kauinsertlogobw { O{width=90pt} }

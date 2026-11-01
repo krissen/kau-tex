@@ -1,0 +1,10 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kau-style}
+\kauapplystyle[links]
+\begin{document}
+\START
+\TEST{hyperref}{\ifdefined\hypersetup\TRUE\else\FALSE\fi}
+\TEST{no geometry}{\ifcsname ver@geometry.sty\endcsname\FALSE\else\TRUE\fi}
+\TEST{no heading font}{\ifdefined\kaurubrikfont\FALSE\else\TRUE\fi}
+\end{document}

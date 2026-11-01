@@ -20,8 +20,8 @@ TEST 4: margins switch
 ============================================================
 TRUE
 ============================================================
-flora: 4157 painted objects
-flora: page 3 coverage 0.70 [3
+flora: 3947 painted objects
+flora: page 1 coverage 0.71 [1
 ]
 \tf@nav=\write...
 \tf@toc=\write...

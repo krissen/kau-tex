@@ -10,7 +10,7 @@ Karlstads universitet LaTeX packages. Public repository.
 | `kaurubriker` | `kaurubriker`, `kau_rubriker` | heading font chain with fallbacks; `kau_rubriker` is a compatibility wrapper |
 | `kau-style` | `kau-style` | class-agnostic core: `\kausetup`, metadata, margins, logo accessors, `craneorange` compatibility |
 | `kau-firstpage` | `kau-firstpage` | logo/footer/first-page helpers for text classes, plus the legacy `\kaustyle*` wrappers |
-| `beamerthemeSingaporeKAU` | `beamerthemeSingaporeKAU` | miniframes, yellow header shading, title page |
+| `beamerthemeSola` | `beamerthemeSola`, `beamerthemeSingaporeKAU` | miniframes, yellow header shading, title page with logo and extra logos; `SingaporeKAU` is a compatibility wrapper |
 | `beamerthemeKAUposter` | `beamerthemeKAUposter`, `beamerthemeKAUposterNOLOGO` | poster themes; the NOLOGO variant builds on the main theme |
 
 The themes require `kau-style` (which loads `kaucolors`); no theme defines
@@ -20,10 +20,25 @@ used by the poster themes.
 Section dividers are opt-in:
 
 ```tex
-\usetheme[sections=dividers]{SingaporeKAU}  % one divider per \section
-\kausectionpage                            % or a single divider
-\kausectionpage[Custom title]              % single divider, custom title
+\usetheme[sections=dividers]{Sola}  % one divider per \section
+\kausectionpage                    % or a single divider
+\kausectionpage[Custom title]      % single divider, custom title
 ```
+
+Title page extras:
+
+```tex
+\kausetup{
+  logo          = kau/bilder/kau_logga.pdf,
+  title-logos   = {partner-one.pdf,partner-two.pdf},
+  contributors  = {Medverkande:\\ A. Person, Roll},
+}
+```
+
+The KAU logo is drawn by default; switch it off with
+`\usetheme[title-logo=false]{Sola}`. `\kautitlelogo{...}`,
+`\kautitlecontributors{...}` and `\kautitleextra{...}` add content without
+redefining the title page.
 
 ## Still to do
 

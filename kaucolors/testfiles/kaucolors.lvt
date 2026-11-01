@@ -3,12 +3,14 @@
 \usepackage{kaucolors}
 \begin{document}
 \START
-\TEST{kaugul}{\extractcolorspecs{kaugul}{\m}{\c}\c}
-\TEST{kaugul2}{\extractcolorspecs{kaugul2}{\m}{\c}\c}
-\TEST{tokens}{%
-  \ifcsname color@kausvart\endcsname\TRUE\else\FALSE\fi
-  \ifcsname color@kauburgundy\endcsname\TRUE\else\FALSE\fi
-  \ifcsname color@kauteal\endcsname\TRUE\else\FALSE\fi
-  \ifcsname color@kaurrod\endcsname\TRUE\else\FALSE\fi
-  \ifcsname color@kaugron\endcsname\TRUE\else\FALSE\fi}
+\extractcolorspecs{kaugul}{\kauTestModelA}{\kauTestValueA}
+\extractcolorspecs{kaugul2}{\kauTestModelB}{\kauTestValueB}
+\TESTEXP{kaugul}{\kauTestValueA}
+\TESTEXP{kaugul2}{\kauTestValueB}
+\extractcolorspecs{kausvart}{\kauTestModelC}{\kauTestValueC}
+\extractcolorspecs{kauburgundy}{\kauTestModelD}{\kauTestValueD}
+\extractcolorspecs{kauteal}{\kauTestModelE}{\kauTestValueE}
+\extractcolorspecs{kaurrod}{\kauTestModelF}{\kauTestValueF}
+\extractcolorspecs{kaugron}{\kauTestModelG}{\kauTestValueG}
+\TESTEXP{tokens}{\kauTestValueC; \kauTestValueD; \kauTestValueE; \kauTestValueF; \kauTestValueG}
 \end{document}

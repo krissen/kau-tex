@@ -1,14 +1,31 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{beamerthemeSingaporeKAU}[2026/11/01 KAU Singapore beamer theme]
-
 \RequirePackage{kau-style}
 
 \DeclareOptionBeamer{compress}{\beamer@compresstrue}
 
 \newif\ifbeamer@kau@sections
 \beamer@kau@sectionsfalse
-\DeclareOptionBeamer{sections=dividers}{\beamer@kau@sectionstrue}
-\DeclareOptionBeamer{sections=none}{\beamer@kau@sectionsfalse}
+\DeclareOptionBeamer{sections}[none]{%
+  \def\beamer@kau@sectionsvalue{#1}%
+  \def\beamer@kau@sectionsdividers{dividers}%
+  \ifx\beamer@kau@sectionsvalue\beamer@kau@sectionsdividers
+    \beamer@kau@sectionstrue
+  \else
+    \beamer@kau@sectionsfalse
+  \fi
+}
+
+\newif\ifbeamer@kau@titlelogo
+\beamer@kau@titlelogotrue
+\DeclareOptionBeamer{title-logo}[true]{%
+  \def\beamer@kau@titlelogovalue{#1}%
+  \def\beamer@kau@titlelogofalsevalue{false}%
+  \ifx\beamer@kau@titlelogovalue\beamer@kau@titlelogofalsevalue
+    \beamer@kau@titlelogofalse
+  \else
+    \beamer@kau@titlelogotrue
+  \fi
+}
+\DeclareOptionBeamer{nologo}{\beamer@kau@titlelogofalse}
 
 \ProcessOptionsBeamer
 
@@ -23,7 +40,14 @@
 
 \setbeamertemplate{frametitle}[default][center]
 
-\defbeamertemplate*{title page}{SingaporeKAU}[1][]{%
+% Title page. The KAU logo is on by default and comes from
+% \kausetup{logo=...}. Extra logos and a contributor block are optional:
+%   \kausetup{title-logos={partner.pdf}, title-logo-width=0.12\paperwidth,
+%             contributors={Medverkande:\\ Name, Role}}
+% or \kautitlelogo{partner.pdf}, \kautitlecontributors{...},
+% \kautitleextra{...}.
+\defbeamertemplate*{title page}{Sola}[1][]{%
+  \vspace*{1cm}%
   \usebeamercolor{structure}%
   \begin{beamercolorbox}[wd=\paperwidth,ht=8ex,dp=3ex,right]{title}%
     \usebeamerfont{title}\inserttitle\hspace*{10mm}\par
@@ -36,6 +60,22 @@
     \medskip
     \usebeamerfont{date}\insertdate\par
   \end{flushright}
+  \vfill
+  \begin{flushright}
+    \kauifcontributors
+      {{\raggedleft\scriptsize \kaucontributors\par}\vspace{0.5cm}}{}%
+    \ifbeamer@kau@titlelogo
+      \kauiflogo
+        {%
+          \IfFileExists{\kaulogo}
+            { \includegraphics[width=0.15\paperwidth]{\kaulogo} }
+            { \PackageWarning{beamerthemeSola}{Logo file not found: \kaulogo} }%
+        }{}%
+    \fi
+    \kauiftitlelogos{\hspace{0.5em}\kauinserttitlelogos}{}%
+    \kauiftitleextra{\par\vspace{0.3cm}\kautitleextracontent}{}%
+    \vspace*{0.8cm}%
+  \end{flushright}
 }
 
 \AtBeginDocument{%
@@ -47,7 +87,7 @@
   \setbeamercolor{section in head/foot}{bg=}%
 }
 
-\defbeamertemplate*{headline}{KAU frames}{%
+\defbeamertemplate*{headline}{Sola frames}{%
   \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
   \end{beamercolorbox}%
   \begin{beamercolorbox}{section in head/foot}
@@ -65,22 +105,22 @@
   \end{beamercolorbox}%
 }
 
-\setbeamertemplate{headline}[KAU frames]
+\setbeamertemplate{headline}[Sola frames]
 
 \addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1.25cm}{}
 
 \beamertemplatedotitem
 
-% Section dividers: opt in with \usetheme[sections=dividers]{SingaporeKAU},
-% or typeset a single one with \kausectionpage[optional title].
-\defbeamertemplate*{section page}{KAU}{%
+% Section dividers: opt in with \usetheme[sections=dividers]{Sola}, or
+% typeset a single one with \kausectionpage[optional title].
+\defbeamertemplate*{section page}{Sola}{%
   \begin{beamercolorbox}[wd=\paperwidth,ht=12ex,dp=4ex,left]{title}
     \hspace*{10mm}%
     {\usebeamerfont{title}\insertsectionhead\par}%
   \end{beamercolorbox}%
   \vfill
 }
-\setbeamertemplate{section page}[KAU]
+\setbeamertemplate{section page}[Sola]
 
 \NewDocumentCommand \kausectionpage { O{} }
   {

@@ -1,4 +1,4 @@
-module = "beamerthemeSingaporeKAU"
+module = "beamerthemeSola"
 pkgversion = "2026-11-01"
 pkgdate = "2026-11-01"
 installfiles = {"*.sty"}

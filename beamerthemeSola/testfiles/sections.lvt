@@ -1,6 +1,6 @@
 \input regression-test.tex\relax
 \documentclass{beamer}
-\usetheme[sections=dividers]{SingaporeKAU}
+\usetheme[sections=dividers]{Sola}
 \begin{document}
 \START
 \TEST{command}{\ifdefined\kausectionpage\TRUE\else\FALSE\fi}

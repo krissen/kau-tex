@@ -1,19 +1,24 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
 ============================================================
-TEST 1: brand colour
+TEST 1: option forwarded
 ============================================================
-FALSE
+TRUE
+============================================================
+============================================================
+TEST 2: brand colour
+============================================================
+0.96863,0.81961,0.09021
 ============================================================
 [1
 ]
 \tf@nav=\write...
 \tf@toc=\write...
 \tf@snm=\write...
-(singaporekau.aux)
-Package rerunfilecheck Warning: File `singaporekau.out' has changed.
+(compat.aux)
+Package rerunfilecheck Warning: File `compat.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
-Package rerunfilecheck Info: Checksums for `singaporekau.out':
+Package rerunfilecheck Info: Checksums for `compat.out':
 (rerunfilecheck)             Before: <no file>
 (rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.

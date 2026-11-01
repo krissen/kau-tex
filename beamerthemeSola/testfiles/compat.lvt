@@ -1,0 +1,14 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme[title-logo=false]{SingaporeKAU}
+\begin{document}
+\START
+\makeatletter
+\TEST{option forwarded}{\ifbeamer@kau@titlelogo\FALSE\else\TRUE\fi}
+\makeatother
+\extractcolorspecs{kaugul}{\kauTestModel}{\kauTestValue}
+\TESTEXP{brand colour}{\kauTestValue}
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

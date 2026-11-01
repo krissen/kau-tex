@@ -1,0 +1,25 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme{Sola}
+\kausetup
+  {
+    logo = {example-image-a},
+    title-logos = {example-image-b},
+    contributors = {Medverkande:\\ A. Person, Roll},
+  }
+\title{Test}
+\author{Author}
+\institute{Karlstads universitet}
+\date{\today}
+\begin{document}
+\START
+\extractcolorspecs{kaugul}{\kauTestModel}{\kauTestValue}
+\TESTEXP{brand colour}{\kauTestValue}
+\TEST{extra title content}{\ifdefined\kauinserttitlelogos\TRUE\else\FALSE\fi}
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

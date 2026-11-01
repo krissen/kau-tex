@@ -29,6 +29,10 @@
 \bool_new:N \l_kau_firstpage_header_bool
 \bool_new:N \l_kau_firstpage_footer_bool
 \bool_new:N \l_kau_firstpage_faculty_bool
+\clist_new:N \l_kau_title_logos_clist
+\dim_new:N  \l_kau_title_logo_width_dim
+\tl_new:N   \l_kau_contributors_tl
+\tl_new:N   \l_kau_title_extra_tl
 
 \msg_new:nnn { kau } { unknown-key }
   { Unknown~kau-style~key~'#1'. }
@@ -72,6 +76,10 @@
     firstpage-footer .default:n = true,
     firstpage-faculty .bool_set:N = \l_kau_firstpage_faculty_bool,
     firstpage-faculty .default:n = true,
+    title-logos      .clist_set:N = \l_kau_title_logos_clist,
+    title-logo-width .dim_set:N   = \l_kau_title_logo_width_dim,
+    contributors     .tl_set:N    = \l_kau_contributors_tl,
+    title-extra      .tl_set:N    = \l_kau_title_extra_tl,
     unknown .code:n =
       { \msg_warning:nnx { kau } { unknown-key } { \l_keys_key_str } },
   }
@@ -96,6 +104,10 @@
     firstpage-header  = false,
     firstpage-footer  = false,
     firstpage-faculty = false,
+    title-logos       = {},
+    title-logo-width  = 0.15\paperwidth,
+    contributors      = {},
+    title-extra       = {},
   }
 
 \ProcessKeyOptions[kau]
@@ -171,6 +183,32 @@
 \NewExpandableDocumentCommand \kaulogo { } { \tl_use:N \l_kau_logo_tl }
 \NewExpandableDocumentCommand \kauiflogo { m m }
   { \tl_if_empty:NTF \l_kau_logo_tl {#2} {#1} }
+
+% Extra title-page content, easy to add from a document.
+\NewDocumentCommand \kautitlelogo { m }
+  { \clist_put_right:Nn \l_kau_title_logos_clist {#1} }
+\NewExpandableDocumentCommand \kauiftitlelogos { m m }
+  { \clist_if_empty:NTF \l_kau_title_logos_clist {#2} {#1} }
+\NewDocumentCommand \kauinserttitlelogos { }
+  {
+    \clist_map_inline:Nn \l_kau_title_logos_clist
+      {
+        \includegraphics[width=\l_kau_title_logo_width_dim]{##1}%
+        \hspace{0.5em}
+      }
+  }
+\NewDocumentCommand \kautitlecontributors { +m }
+  { \tl_set:Nn \l_kau_contributors_tl {#1} }
+\NewDocumentCommand \kauifcontributors { +m +m }
+  { \tl_if_empty:NTF \l_kau_contributors_tl {#2} {#1} }
+\NewDocumentCommand \kaucontributors { }
+  { \tl_use:N \l_kau_contributors_tl }
+\NewDocumentCommand \kautitleextra { +m }
+  { \tl_set:Nn \l_kau_title_extra_tl {#1} }
+\NewDocumentCommand \kauiftitleextra { +m +m }
+  { \tl_if_empty:NTF \l_kau_title_extra_tl {#2} {#1} }
+\NewDocumentCommand \kautitleextracontent { }
+  { \tl_use:N \l_kau_title_extra_tl }
 
 % ---------------------------------------------------------------------------
 % Applying the style to text documents. Nothing happens unless asked:

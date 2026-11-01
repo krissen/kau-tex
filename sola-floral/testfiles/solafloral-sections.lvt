@@ -1,0 +1,20 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme[sections=dividers]{Sola}
+\usepackage{sola-floral}
+\begin{document}
+\START
+\TEST{divider command}{\ifdefined\kausectionpage\TRUE\else\FALSE\fi}
+\section{First}
+\begin{frame}{After the automatic divider}
+Body.
+\end{frame}
+\kausectionpage[Manual divider]
+\begin{frame}{After the manual divider}
+Body.
+\end{frame}
+\floraoff
+\section{Second, flora off}
+\TEST{flora stays off}{\iffloraon\FALSE\else\TRUE\fi}
+\floraon
+\end{document}

@@ -1,0 +1,19 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme{Sola}
+\usepackage{sola-floral}
+\newlength\solaTestPlain
+\newlength\solaTestFlora
+\begin{document}
+\START
+\TEST{flora loaded}{\ifdefined\florasetup\TRUE\else\FALSE\fi}
+\extractcolorspecs{kaugul}{\solaTestModel}{\solaTestValue}
+\TESTEXP{kaugul}{\solaTestValue}
+\TEST{background band}{\ifdim\florabackgroundheight=2.4cm\TRUE\else\FALSE\fi}
+\floraoff\setlength\solaTestPlain{\textwidth}
+\floraon\setlength\solaTestFlora{\textwidth}
+\TEST{margins switch}{\ifdim\solaTestPlain=\solaTestFlora\FALSE\else\TRUE\fi}
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

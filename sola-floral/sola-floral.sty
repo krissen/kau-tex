@@ -1,0 +1,120 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{sola-floral}[2026/11/01 Sola styling for beamer-floral]
+
+\RequirePackage{beamer-floral}
+\RequirePackage{kaucolors}
+
+% The plain margins are the ones beamer starts with; flora adds its column.
+\makeatletter
+\newlength\solafloral@plainleftmargin
+\newlength\solafloral@plainrightmargin
+\setlength\solafloral@plainleftmargin{\beamer@leftmargin}
+\setlength\solafloral@plainrightmargin{\beamer@rightmargin}
+\makeatother
+
+\florasetup{layout=surround, seed=7, density=1.5, visitors=0.2,
+  mix={leaves=3, leaflets=3, sprays=2, bloom=2, ghost=1, curls=0, cyme=0, umbel=0, gyps=0},
+  tune={
+    plant={root=0.78, root_width=2.0, tip_width=1.2, stem_brush=0.5, fork_ratio=0.8, end_taper=0.06},
+    gesture={edge=0.10},
+    compose={hero=0.295, hero_shift=18, hero_min=14, leaves=300, leaf_size=0.55,
+      leaf_width={0.07, 0.10}, leaf_overlap=0.8, leaf_spacing={8, 14},
+      leaflet_size=6, leaflet_spacing={14, 24}, features={0.8, 1.0},
+      stemlets=0, runners=0}
+  }}
+\florapalette{green}
+\florabackground{kaugul}{2.4cm}
+
+\setbeamersize{text margin left=2.5cm, text margin right=1cm}
+\setbeamercolor{frametitle}{bg=}
+\setbeamercolor{section in head/foot}{bg=}
+
+\makeatletter
+\defbeamertemplate*{headline}{KAUflora}{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}\end{beamercolorbox}%
+  \begin{beamercolorbox}{section in head/foot}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+  \end{beamercolorbox}%
+  \ifbeamer@theme@subsection%
+    \begin{beamercolorbox}[colsep=1.5pt]{middle separation line head}\end{beamercolorbox}%
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{subsection in head/foot}
+      \usebeamerfont{subsection in head/foot}\insertsubsectionhead
+    \end{beamercolorbox}%
+  \fi%
+  \begin{beamercolorbox}[colsep=0.15pt]{lower separation line head}\end{beamercolorbox}%
+}
+\setbeamertemplate{headline}[KAUflora]
+\defbeamertemplate*{frametitle}{KAUflora}[1][left]
+{%
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[sep=0.3cm,#1,wd=\the\@tempdima]{frametitle}
+    \usebeamerfont{frametitle}%
+    \vbox{}\vskip-1ex%
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \vskip0.4cm
+    \hspace*{\beamer@leftmargin}\strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\hspace*{\beamer@leftmargin}\strut\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi%
+  \end{beamercolorbox}%
+}
+\setbeamertemplate{frametitle}[KAUflora]
+
+% Flora reserves the left column; pages without flora keep the plain
+% margins, so the title and section dividers are not offset by an empty
+% column. \geometry is preamble-only, so the layout lengths are set
+% directly here; \floraon and \floraoff run before \begin{frame}, where
+% beamer reads them.
+\newcommand\solafloral@setmargins[2]{%
+  \begingroup
+    \@tempdima=#1\relax
+    \xdef\Gm@lmargin{\the\@tempdima}%
+    \@tempdima=#2\relax
+    \xdef\Gm@rmargin{\the\@tempdima}%
+  \endgroup
+  \beamer@leftmargin=#1\relax
+  \beamer@rightmargin=#2\relax
+  \@tempdima=\paperwidth
+  \advance\@tempdima by-#1\relax
+  \advance\@tempdima by-#2\relax
+  \textwidth=\@tempdima
+  \columnwidth=\textwidth
+  \hsize=\textwidth
+  \linewidth=\textwidth
+  \oddsidemargin=#1\relax
+  \advance\oddsidemargin by-1in\relax
+  \evensidemargin=\oddsidemargin
+}
+\newcommand\solafloral@floramargins{\solafloral@setmargins{2.5cm}{1cm}}
+\newcommand\solafloral@plainmargins{%
+  \solafloral@setmargins{\solafloral@plainleftmargin}{\solafloral@plainrightmargin}}
+\let\solafloral@floraon\floraon
+\let\solafloral@floraoff\floraoff
+\renewcommand\floraon{\solafloral@floraon\solafloral@floramargins}
+\renewcommand\floraoff{\solafloral@floraoff\solafloral@plainmargins}
+\makeatother
+
+% Sola decides whether sections get divider frames. Wrap its divider command
+% so any divider, automatic or manual, switches the margins; do not add a
+% second divider hook of our own.
+\makeatletter
+\newif\ifsolafloral@was
+\ifcsname kausectionpage\endcsname
+  \NewCommandCopy\solafloral@kausectionpage\kausectionpage
+  \RenewDocumentCommand\kausectionpage{O{}}{%
+    \iffloraon\solafloral@wastrue\else\solafloral@wasfalse\fi
+    \floraoff
+    \solafloral@kausectionpage[#1]%
+    \ifsolafloral@was\floraon\else\floraoff\fi}%
+\fi
+\makeatother
+
+\endinput

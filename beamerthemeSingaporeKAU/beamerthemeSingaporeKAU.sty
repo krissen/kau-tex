@@ -1,0 +1,70 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeSingaporeKAU}[2026/11/01 KAU Singapore beamer theme]
+
+\RequirePackage{kaucolors}
+
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\setbeamercolor{section in head/foot}{use=structure,bg=structure.fg!25!bg}
+
+\setbeamercolor{description item}{fg=kaugul!75!red!75!black}
+\setbeamerfont{description item}{series=\bf}
+
+\useoutertheme[subsection=false]{miniframes}
+
+\setbeamertemplate{frametitle}[default][center]
+
+\defbeamertemplate*{title page}{SingaporeKAU}[1][]{%
+  \usebeamercolor{structure}%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=8ex,dp=3ex,right]{title}%
+    \usebeamerfont{title}\inserttitle\hspace*{10mm}\par
+    \usebeamerfont{subtitle}\usebeamercolor{subtitle}\insertsubtitle\hspace*{10mm}\par
+  \end{beamercolorbox}%
+  \bigskip
+  \begin{flushright}
+    \usebeamerfont{author}\insertauthor\par
+    \usebeamerfont{institute}\insertinstitute\par
+    \medskip
+    \usebeamerfont{date}\insertdate\par
+  \end{flushright}
+}
+
+\AtBeginDocument{%
+  \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+  {%
+    color(0cm)=(kaugul);
+    color(1.25cm)=(white!65!kaugul)%
+  }%
+  \setbeamercolor{section in head/foot}{bg=}%
+}
+
+\defbeamertemplate*{headline}{KAU frames}{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}{section in head/foot}
+    \vskip2pt\insertnavigation{\paperwidth}\vskip2pt
+  \end{beamercolorbox}%
+  \ifbeamer@theme@subsection%
+    \begin{beamercolorbox}[colsep=1.5pt]{middle separation line head}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{subsection in head/foot}
+      \usebeamerfont{subsection in head/foot}\insertsubsectionhead
+    \end{beamercolorbox}%
+  \fi%
+  \begin{beamercolorbox}[colsep=0.15pt]{lower separation line head}
+  \end{beamercolorbox}%
+}
+
+\setbeamertemplate{headline}[KAU frames]
+
+\addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1.25cm}{}
+
+\beamertemplatedotitem
+
+\mode<all>
+
+\endinput

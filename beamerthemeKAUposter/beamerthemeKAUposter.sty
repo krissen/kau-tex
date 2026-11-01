@@ -1,0 +1,128 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeKAUposter}[2026/11/01 KAU poster beamer theme]
+
+% Adapted from the ``Aachen'' theme by Philippe Dreuw and Thomas Deselaers.
+
+\RequirePackage{tangocolors}
+\RequirePackage{kaucolors}
+\RequirePackage{textcase}
+\RequirePackage{fontspec}
+\selectcolormodel{cmyk}
+
+\IfFontExistsTF{EBGaramond}{\setmainfont{EBGaramond}}{}
+\IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}}{}
+\makeatletter
+\@ifundefined{kaurubrikfont}{%
+  \IfFontExistsTF{Helvetica Neue Condensed Bold}{%
+    \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase]{Helvetica Neue Condensed Bold}%
+  }{%
+    \IfFontExistsTF{Arial Narrow Bold}{%
+      \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase]{Arial Narrow Bold}%
+    }{%
+      \newcommand{\kaurubrikfont}{\sffamily\bfseries}%
+    }%
+  }%
+}{}
+\makeatother
+
+\mode<presentation>
+
+\setbeamercolor{headline}{fg=black,bg=kaugul}
+\setbeamercolor{title in headline}{fg=black}
+\setbeamercolor{author in headline}{fg=black}
+\setbeamercolor{institute in headline}{fg=black}
+
+\setbeamercolor{author in head/foot}{fg=kaugul, bg=black}
+\setbeamercolor{title in head/foot}{bg=kaugul, fg=black}
+
+\setbeamercolor{footline}{fg=kaugul, bg=black!85}
+\setbeamerfont{footline}{size=\large}
+
+\setbeamercolor{separation line}{bg=black}
+
+\setbeamercolor{framesubtitle}{fg=orange3, bg=black!65}
+
+\setbeamercolor*{normal text}{fg=black, bg=kaubg}
+\setbeamercolor*{block body}{bg=kaublockbg,fg=black}
+\setbeamercolor*{block title}{fg=black,bg=kaugul2}
+\setbeamerfont{block title}{size=\large}
+\setbeamercolor{upper separation line head}{fg=white}
+
+\setbeamercolor*{example body}{fg=aluminium3,bg=black}
+\setbeamercolor*{example text}{fg=aluminium3,bg=black}
+\setbeamercolor*{example title}{bg=orange1,fg=black!65}
+
+\setbeamercolor{alerted text}{fg=scarletred2}
+
+\setbeamercolor{structure}{fg=skyblue3}
+
+\setbeamertemplate{itemize items}{\color{black!80}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{black!60}$\blacktriangleright$}
+\setbeamercolor*{description item}{fg=black!80}
+
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamertemplate{block begin}{%
+  \vskip.75ex
+  \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=0.25cm,colsep*=.75ex]{block title}%
+    \usebeamerfont*{block title}\MakeTextUppercase{\kaurubrikfont{\insertblocktitle}}%
+  \end{beamercolorbox}%
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
+}
+\setbeamertemplate{block end}{%
+  \end{beamercolorbox}%
+}
+
+\setbeamertemplate{headline}{%
+  \leavevmode
+  \begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+      \begin{column}{.25\paperwidth}
+        \vskip8mm
+        \begin{center}
+          \headerlogo
+        \end{center}
+        \vskip2cm
+      \end{column}
+      \hspace{-10mm}
+      \begin{column}{.825\paperwidth}
+        \vskip12mm
+        \usebeamercolor{title in headline}{%
+          \color{fg}\textbf{\MakeTextUppercase{\kaurubrikfont{\Large{\headertextsmall}}}}\\[1ex]}%
+        \vskip4mm
+        \usebeamercolor{title in headline}{%
+          \color{fg}\textbf{\MakeTextUppercase{\kaurubrikfont{\huge{\inserttitle}}}}\\[1ex]}%
+      \end{column}
+      \begin{column}{.15\paperwidth}
+      \end{column}
+    \end{columns}
+    \vskip2mm
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+    \rule{0pt}{2pt}
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth]{upper separation line foot}
+    \rule{0pt}{2pt}
+  \end{beamercolorbox}
+  \leavevmode%
+  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.2ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+      {\small \footertextleft}
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.2ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+      {\small \footertextright}
+    \end{beamercolorbox}}%
+  \vskip0pt%
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line foot}
+    \rule{0pt}{2pt}
+  \end{beamercolorbox}
+}
+
+\mode<all>
+
+\endinput

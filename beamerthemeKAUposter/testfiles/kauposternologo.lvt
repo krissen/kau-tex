@@ -1,0 +1,13 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\def\headertextsmall{Small header}
+\def\footertextleft{Left}
+\def\footertextright{Right}
+\usetheme{KAUposterNOLOGO}
+\begin{document}
+\START
+\TEST{brand colour}{\ifcsname color@kaugul\endcsname\TRUE\else\FALSE\fi}
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

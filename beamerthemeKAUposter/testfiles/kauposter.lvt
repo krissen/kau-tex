@@ -1,0 +1,15 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\def\headerlogo{\rule{1cm}{1cm}}
+\def\headertextsmall{Small header}
+\def\footertextleft{Left}
+\def\footertextright{Right}
+\usetheme{KAUposter}
+\begin{document}
+\START
+\TEST{brand colour}{\ifcsname color@kaugul\endcsname\TRUE\else\FALSE\fi}
+\TEST{heading font}{\ifdefined\kaurubrikfont\TRUE\else\FALSE\fi}
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

@@ -1,0 +1,50 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{kaurubriker}[2026/11/01 KAU heading typography]
+
+\RequirePackage{fontspec}
+\RequirePackage{titlesec}
+
+% Body fonts, only where the families exist.
+\IfFontExistsTF{EBGaramond}{\setmainfont{EBGaramond}}{}
+\IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}}{}
+
+% Heading font chain with clean fallbacks. A user may override the first
+% attempt with \def\kauRubrikFontName{...} before loading the package.
+\makeatletter
+\newif\ifkau@rubrik@found
+\kau@rubrik@foundfalse
+\newcommand*\kau@tryrubrikfont[1]{%
+  \IfFontExistsTF{#1}{%
+    \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase]{#1}%
+    \kau@rubrik@foundtrue
+  }{}%
+}
+\@ifundefined{kauRubrikFontName}{}{%
+  \kau@tryrubrikfont{\kauRubrikFontName}%
+}
+\ifkau@rubrik@found\else \kau@tryrubrikfont{HelveticaNeue-CondensedBold}\fi
+\ifkau@rubrik@found\else \kau@tryrubrikfont{Helvetica Neue Condensed Bold}\fi
+\ifkau@rubrik@found\else \kau@tryrubrikfont{ArialNarrow-Bold}\fi
+\ifkau@rubrik@found\else \kau@tryrubrikfont{Arial Narrow Bold}\fi
+\ifkau@rubrik@found\else \kau@tryrubrikfont{NimbusSansNarrow-Bold}\fi
+\ifkau@rubrik@found\else \kau@tryrubrikfont{Nimbus Sans Narrow Bold}\fi
+\ifkau@rubrik@found\else
+  \newcommand{\kaurubrikfont}{\sffamily\bfseries}
+\fi
+\makeatother
+
+\titleformat{\part}[display]
+  {\normalfont\large\bfseries\kaurubrikfont}{\partname}{20pt}{\huge}
+\titlespacing*{\part}{0pt}{30pt}{20pt}
+
+\titleformat*{\section}{\LARGE\kaurubrikfont}
+\titleformat*{\subsection}{\large\kaurubrikfont}
+\titleformat*{\subsubsection}{\kaurubrikfont}
+
+\AtBeginDocument{%
+  \titleformat{\section}{\LARGE\kaurubrikfont}{}{0pt}{}%
+  \titleformat{\subsection}{\large\kaurubrikfont}{}{0pt}{}%
+  \titleformat{\subsubsection}{\kaurubrikfont}{}{0pt}{}%
+}
+
+\endinput

@@ -1,0 +1,50 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeKAUposterNOLOGO}[2026/11/01 KAU poster theme without logo]
+
+\RequirePackage{beamerthemeKAUposter}
+
+\mode<presentation>
+
+\setbeamertemplate{block begin}{%
+  \vskip.75ex
+  \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=0.25cm,colsep*=.75ex]{block title}%
+    \usebeamerfont*{block title}\MakeTextUppercase{\kaurubrikfont{\insertblocktitle}}%
+  \end{beamercolorbox}%
+  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.3pt}}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block body}%
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.55ex}\vbox{}%
+}
+\setbeamertemplate{block end}{%
+  \end{beamercolorbox}%
+}
+
+\setbeamertemplate{headline}{%
+  \leavevmode
+  \begin{beamercolorbox}[wd=\paperwidth]{headline}
+    \begin{columns}[T]
+      \begin{column}{.10\paperwidth}
+        \vspace{10mm}
+      \end{column}
+      \hspace{-10mm}
+      \begin{column}{.825\paperwidth}
+        \vskip12mm
+        \usebeamercolor{title in headline}{%
+          \color{fg}\textbf{\MakeTextUppercase{\kaurubrikfont{\Large{\headertextsmall}}}}\\[1ex]}%
+        \vskip4mm
+        \usebeamercolor{title in headline}{%
+          \color{fg}\textbf{\MakeTextUppercase{\kaurubrikfont{\huge{\inserttitle}}}}\\[1ex]}%
+      \end{column}
+      \begin{column}{.15\paperwidth}
+      \end{column}
+    \end{columns}
+    \vskip7mm
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
+    \rule{0pt}{2pt}
+  \end{beamercolorbox}
+}
+
+\mode<all>
+
+\endinput

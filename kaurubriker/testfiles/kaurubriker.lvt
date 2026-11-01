@@ -1,0 +1,9 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kaurubriker}
+\begin{document}
+\START
+\TEST{heading font}{\ifdefined\kaurubrikfont\TRUE\else\FALSE\fi}
+\section{En rubrik}
+\subsection{En underrubrik}
+\end{document}

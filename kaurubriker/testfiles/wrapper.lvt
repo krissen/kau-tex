@@ -1,0 +1,8 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kau_rubriker}
+\begin{document}
+\START
+\TEST{wrapper loads heading font}{%
+  \ifdefined\kaurubrikfont\TRUE\else\FALSE\fi}
+\end{document}

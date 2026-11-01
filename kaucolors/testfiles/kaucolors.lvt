@@ -1,0 +1,14 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kaucolors}
+\begin{document}
+\START
+\TEST{kaugul}{\extractcolorspecs{kaugul}{\m}{\c}\c}
+\TEST{kaugul2}{\extractcolorspecs{kaugul2}{\m}{\c}\c}
+\TEST{tokens}{%
+  \ifcsname color@kausvart\endcsname\TRUE\else\FALSE\fi
+  \ifcsname color@kauburgundy\endcsname\TRUE\else\FALSE\fi
+  \ifcsname color@kauteal\endcsname\TRUE\else\FALSE\fi
+  \ifcsname color@kaurrod\endcsname\TRUE\else\FALSE\fi
+  \ifcsname color@kaugron\endcsname\TRUE\else\FALSE\fi}
+\end{document}

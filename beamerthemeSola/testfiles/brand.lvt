@@ -18,6 +18,8 @@
 \extractcolorspecs{kaugra2}{\BrandModelJ}{\BrandValueJ}
 \TESTEXP{kaugul}{\BrandValueA}
 \TESTEXP{kaugul2}{\BrandValueB}
+\extractcolorspecs{craneorange}{\BrandModelK}{\BrandValueK}
+\TESTEXP{craneorange is kaugul}{\BrandValueK}
 \TESTEXP{kausvart}{\BrandValueC}
 \TESTEXP{kauvitt}{\BrandValueD}
 \TESTEXP{kauburgundy}{\BrandValueE}

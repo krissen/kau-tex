@@ -89,6 +89,10 @@
     color(1.25cm)=(white!65!kaugul)%
   }%
   \setbeamercolor{section in head/foot}{bg=}%
+  % Documents and included fragments still say craneorange. The crane
+  % colour theme may have redefined it to orange, so restore the KAU
+  % yellow at the last moment.
+  \colorlet{craneorange}{kaugul}%
 }
 
 \defbeamertemplate*{headline}{Sola frames}{%

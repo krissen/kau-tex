@@ -13,4 +13,8 @@ Body.
 \begin{frame}{After the manual divider}
 Body.
 \end{frame}
+\floraoff
+\section{Second, flora off}
+\TEST{flora stays off}{\iffloraon\FALSE\else\TRUE\fi}
+\floraon
 \end{document}

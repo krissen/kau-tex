@@ -106,10 +106,14 @@
 % so any divider, automatic or manual, switches the margins; do not add a
 % second divider hook of our own.
 \makeatletter
+\newif\ifsolafloral@wason
 \ifcsname kausectionpage\endcsname
   \NewCommandCopy\solafloral@kausectionpage\kausectionpage
   \RenewDocumentCommand\kausectionpage{O{}}{%
-    \floraoff\solafloral@kausectionpage[#1]\floraon}%
+    \iffloraon\solafloral@wason true\else\solafloral@wason false\fi
+    \floraoff
+    \solafloral@kausectionpage[#1]%
+    \ifsolafloral@wason\floraon\else\floraoff\fi}%
 \fi
 \makeatother
 

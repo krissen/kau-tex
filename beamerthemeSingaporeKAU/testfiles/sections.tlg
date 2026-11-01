@@ -1,0 +1,23 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: command
+============================================================
+TRUE
+============================================================
+[1
+]
+[2
+]
+[3
+]
+\tf@nav=\write...
+\tf@toc=\write...
+\tf@snm=\write...
+(sections.aux)
+Package rerunfilecheck Warning: File `sections.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+Package rerunfilecheck Info: Checksums for `sections.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  B475993E4BF5A80005938FD50CA939CC;131.

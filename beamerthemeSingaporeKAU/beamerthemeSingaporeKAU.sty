@@ -4,6 +4,12 @@
 \RequirePackage{kau-style}
 
 \DeclareOptionBeamer{compress}{\beamer@compresstrue}
+
+\newif\ifbeamer@kau@sections
+\beamer@kau@sectionsfalse
+\DeclareOptionBeamer{sections=dividers}{\beamer@kau@sectionstrue}
+\DeclareOptionBeamer{sections=none}{\beamer@kau@sectionsfalse}
+
 \ProcessOptionsBeamer
 
 \mode<presentation>
@@ -64,6 +70,35 @@
 \addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1.25cm}{}
 
 \beamertemplatedotitem
+
+% Section dividers: opt in with \usetheme[sections=dividers]{SingaporeKAU},
+% or typeset a single one with \kausectionpage[optional title].
+\defbeamertemplate*{section page}{KAU}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=12ex,dp=4ex,left]{title}
+    \hspace*{10mm}%
+    {\usebeamerfont{title}\insertsectionhead\par}%
+  \end{beamercolorbox}%
+  \vfill
+}
+\setbeamertemplate{section page}[KAU]
+
+\NewDocumentCommand \kausectionpage { O{} }
+  {
+    \begin{frame}[plain]
+      \if\relax\detokenize{#1}\relax
+        \sectionpage
+      \else
+        \begingroup
+          \def\insertsectionhead{#1}%
+          \sectionpage
+        \endgroup
+      \fi
+    \end{frame}
+  }
+
+\ifbeamer@kau@sections
+  \AtBeginSection[]{\kausectionpage}
+\fi
 
 \mode<all>
 

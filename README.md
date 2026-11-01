@@ -13,9 +13,17 @@ Karlstads universitet LaTeX packages. Public repository.
 | `beamerthemeSingaporeKAU` | `beamerthemeSingaporeKAU` | miniframes, yellow header shading, title page |
 | `beamerthemeKAUposter` | `beamerthemeKAUposter`, `beamerthemeKAUposterNOLOGO` | poster themes; the NOLOGO variant builds on the main theme |
 
-The themes require `kaucolors`; no theme defines its own `kaugul` or
-depends on `craneorange`. `tangocolors` (TeX Live) is used by the poster
-themes.
+The themes require `kau-style` (which loads `kaucolors`); no theme defines
+its own `kaugul` or depends on `craneorange`. `tangocolors` (TeX Live) is
+used by the poster themes.
+
+Section dividers are opt-in:
+
+```tex
+\usetheme[sections=dividers]{SingaporeKAU}  % one divider per \section
+\kausectionpage                            % or a single divider
+\kausectionpage[Custom title]              % single divider, custom title
+```
 
 ## Still to do
 

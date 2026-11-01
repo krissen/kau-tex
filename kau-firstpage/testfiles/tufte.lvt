@@ -1,0 +1,15 @@
+\input regression-test.tex\relax
+\documentclass{tufte-handout}
+\usepackage{kau-style}
+\usepackage{kau-firstpage}
+\begin{document}
+\START
+\TEST{tufte macros}{%
+  \ifdefined\kaustyleTufteFirstpageLogo\TRUE\else\FALSE\fi
+  \ifdefined\kaustyleTufteFirstpageLogoEng\TRUE\else\FALSE\fi
+  \ifdefined\kaustyleTufteFirstpageLogoColor\TRUE\else\FALSE\fi
+  \ifdefined\kaustyleTufteFirstpageFooter\TRUE\else\FALSE\fi}
+\kaustyleTufteFirstpageLogo{example-image-a}
+\kaustyleTufteFirstpageFooter
+Body.
+\end{document}

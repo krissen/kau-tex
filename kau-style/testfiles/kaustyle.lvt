@@ -1,0 +1,27 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage[language=swedish,logo={example-image-a}]{kau-style}
+\begin{document}
+\START
+\TEST{profile}{\kauprofile}
+\TEST{language}{\kaulanguage}
+\TEST{swedish}{\kauifswedish{SV}{EN}}
+\TEST{faculty}{\kaufaculty}
+\TEST{address}{\kauaddress}
+\TEST{phone}{\kauphone}
+\TEST{margin-left}{\the\dimexpr\kaumargin{left}\relax}
+\TEST{craneorange alias}{\ifcsname color@craneorange\endcsname\TRUE\else\FALSE\fi}
+\TEST{firstpage default}{\kauiffirstpage{YES}{NO}}
+\TEST{header default}{\kauiffirstpageheader{YES}{NO}}
+\TEST{footer default}{\kauiffirstpagefooter{YES}{NO}}
+\TEST{faculty default}{\kauiffirstpagefaculty{YES}{NO}}
+\kausetup{firstpage-header=true,firstpage-footer=true,firstpage-faculty=true}
+\TEST{header on}{\kauiffirstpageheader{YES}{NO}}
+\TEST{footer on}{\kauiffirstpagefooter{YES}{NO}}
+\TEST{faculty on}{\kauiffirstpagefaculty{YES}{NO}}
+\kausetup{language=english}
+\TEST{english}{\kauifenglish{EN}{SV}}
+\TEST{faculty en}{\kaufaculty}
+\kausetup{language=swedish}
+\TEST{faculty sv}{\kaufaculty}
+\end{document}

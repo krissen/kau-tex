@@ -1,0 +1,16 @@
+\input regression-test.tex\relax
+\documentclass{article}
+\usepackage{kau-style}
+\usepackage{kau-firstpage}
+\begin{document}
+\START
+\TEST{legacy macros}{%
+  \ifdefined\kaustyleFirstpageLogo\TRUE\else\FALSE\fi
+  \ifdefined\kaustyleFirstpageLogoColor\TRUE\else\FALSE\fi
+  \ifdefined\kaustyleFirstpageFooter\TRUE\else\FALSE\fi}
+\kaustyleFirstpageLogo{example-image-a}
+\kaustyleFirstpageFooter
+\TEST{footer set}{\thepage}
+\newpage
+Body.
+\end{document}

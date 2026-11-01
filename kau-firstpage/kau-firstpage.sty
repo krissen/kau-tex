@@ -1,0 +1,128 @@
+\NeedsTeXFormat{LaTeX2e}[2022-06-01]
+\ProvidesPackage{kau-firstpage}[2026-11-01 First page, logo and footer for KAU documents]
+
+\RequirePackage{kau-style}
+
+\@ifclassloaded{beamer}{}{%
+  \RequirePackage{fancyhdr}%
+}
+
+% Fullwidth is provided by tufte; elsewhere fall back to the text block.
+\@ifundefined{fullwidth}{%
+  \newenvironment{fullwidth}%
+    {\begin{minipage}{\linewidth}}%
+    {\end{minipage}}%
+}{}
+
+\@ifclassloaded{beamer}{}{%
+
+% The footer text is stored in a macro so that firststyle can pick it up at
+% shipout, whether the caller sets it before or after \thispagestyle.
+\newcommand*\kau@firstpage@footer{}
+
+\fancypagestyle{firststyle}{%
+  \fancyhf{}%
+  \fancyfoot[C]{\kau@firstpage@footer}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+
+% ---------------------------------------------------------------------------
+% Clean API. Nothing is switched on by default: no first-page header, no
+% faculty line and no footer unless the document asks for it.
+% ---------------------------------------------------------------------------
+\NewDocumentCommand \kaufirstpagelogo { s O{width=90pt} m }
+  {
+    \IfBooleanTF {#1} {\centering} {\noindent}%
+    \includegraphics[#2]{#3}\par
+    \bigskip
+  }
+
+\NewDocumentCommand \kaufirstpagefaculty { }
+  {
+    \noindent \small \kaufaculty \par
+    \bigskip
+  }
+
+\NewDocumentCommand \kaufirstpagefooter { }
+  {
+    \renewcommand*\kau@firstpage@footer{%
+      \centering
+      \thepage\\
+      \vspace{5mm}%
+      {\sffamily\footnotesize
+        \kauuniversity, \kaupostal\\
+        \kaustreet, Telefon \kauphone\\
+        \kauweb}%
+    }%
+    \fancyfoot[R,L]{}%
+    \fancyfoot[C]{\kau@firstpage@footer}%
+  }
+
+% The opt-in entry point used by new documents:
+%   \kausetup{logo=..., firstpage-header=true, firstpage-footer=true}
+%   \kaufirstpage
+\NewDocumentCommand \kaufirstpage { }
+  {
+    \kauiffirstpageheader
+      {
+        \tl_if_empty:NTF \l_kau_logo_tl
+          { \PackageWarning{kau-firstpage}{firstpage-header~is~true~but~no~logo~is~set} }
+          { \kaufirstpagelogo{\tl_use:N \l_kau_logo_tl} }
+      }{}
+    \kauiffirstpagefaculty { \kaufirstpagefaculty } {}
+    \kauiffirstpagefooter  { \kaufirstpagefooter }  {}
+  }
+
+% ---------------------------------------------------------------------------
+% Legacy wrappers. Calling them is itself the opt-in.
+% ---------------------------------------------------------------------------
+\newcommand{\kaustyleFirstpageLogo}[1]{%
+  \thispagestyle{firststyle}%
+  \kaufirstpagelogo[width=90pt]{#1}%
+  \kaufirstpagefaculty
+}
+\newcommand{\kaustyleFirstpageLogoColor}[1]{%
+  \thispagestyle{firststyle}%
+  \kaufirstpagelogo*[width=90pt]{#1}%
+  \kaufirstpagefaculty
+}
+\newcommand{\kaustyleTufteFirstpageLogo}[1]{%
+  \thispagestyle{firststyle}%
+  \begin{fullwidth}%
+    \kaufirstpagelogo[width=90pt]{#1}%
+    \kaufirstpagefaculty
+  \end{fullwidth}%
+}
+\newcommand{\kaustyleTufteFirstpageLogoEng}[1]{%
+  \thispagestyle{firststyle}%
+  \begin{fullwidth}%
+    {\let\kaufaculty\kaufacultyenglish
+     \kaufirstpagelogo[width=90pt]{#1}%
+     \kaufirstpagefaculty}%
+  \end{fullwidth}%
+}
+\newcommand{\kaustyleTufteFirstpageLogoColor}[1]{%
+  \thispagestyle{firststyle}%
+  \begin{fullwidth}%
+    \kaufirstpagelogo*[width=90pt]{#1}%
+    \kaufirstpagefaculty
+  \end{fullwidth}%
+}
+\newcommand{\kaustyleFirstpageFooter}{%
+  \kaufirstpagefooter
+}
+\newcommand{\kaustyleTufteFirstpageFooter}{%
+  \renewcommand*\kau@firstpage@footer{%
+    \centering
+    {\sffamily\footnotesize
+      \kauuniversity, \kaupostal\\
+      \kaustreet, Telefon \kauphone\\
+      \kauweb}%
+  }%
+  \fancyfoot[R,L]{}%
+  \fancyfoot[C]{\kau@firstpage@footer}%
+}
+
+}% end non-beamer
+
+\endinput

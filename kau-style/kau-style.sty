@@ -1,0 +1,186 @@
+\NeedsTeXFormat{LaTeX2e}[2022-06-01]
+\ProvidesExplPackage{kau-style}{2026-11-01}{0.1}{KAU shared style tokens and metadata}
+
+\RequirePackage{kaucolors}
+\RequirePackage{graphicx}
+
+% ---------------------------------------------------------------------------
+% State
+% ---------------------------------------------------------------------------
+\tl_new:N   \l_kau_profile_tl
+\tl_new:N   \l_kau_language_tl
+\tl_new:N   \l_kau_logo_tl
+\tl_new:N   \l_kau_logo_bw_tl
+\tl_new:N   \l_kau_logo_color_tl
+\tl_new:N   \l_kau_faculty_sv_tl
+\tl_new:N   \l_kau_faculty_en_tl
+\tl_new:N   \l_kau_university_tl
+\tl_new:N   \l_kau_street_tl
+\tl_new:N   \l_kau_postal_tl
+\tl_new:N   \l_kau_city_tl
+\tl_new:N   \l_kau_phone_tl
+\tl_new:N   \l_kau_web_tl
+\dim_new:N  \l_kau_margin_left_dim
+\dim_new:N  \l_kau_margin_right_dim
+\dim_new:N  \l_kau_margin_top_dim
+\dim_new:N  \l_kau_margin_bottom_dim
+\bool_new:N \l_kau_fonts_text_bool
+\bool_new:N \l_kau_firstpage_bool
+\bool_new:N \l_kau_firstpage_header_bool
+\bool_new:N \l_kau_firstpage_footer_bool
+\bool_new:N \l_kau_firstpage_faculty_bool
+
+\msg_new:nnn { kau } { unknown-key }
+  { Unknown~kau-style~key~'#1'. }
+\msg_new:nnn { kau } { bad-margin }
+  { Unknown~margin~'#1';~use~left,~right,~top~or~bottom. }
+
+% ---------------------------------------------------------------------------
+% Keys. The six elements are addressed through these groups:
+%   colours (kaucolors), fonts, geometry/margins, headings (kaurubriker),
+%   header/footer (kau-firstpage), first page (kau-firstpage).
+% ---------------------------------------------------------------------------
+\keys_define:nn { kau }
+  {
+    profile .choices:nn =
+      { 2025 } { \tl_set:Nn \l_kau_profile_tl {#1} },
+    language .choices:nn =
+      { swedish, english } { \tl_set:Nn \l_kau_language_tl {#1} },
+    logo        .tl_set:N = \l_kau_logo_tl,
+    logo-bw     .tl_set:N = \l_kau_logo_bw_tl,
+    logo-color  .tl_set:N = \l_kau_logo_color_tl,
+    faculty     .tl_set:N = \l_kau_faculty_sv_tl,
+    faculty-en  .tl_set:N = \l_kau_faculty_en_tl,
+    university  .tl_set:N = \l_kau_university_tl,
+    street      .tl_set:N = \l_kau_street_tl,
+    postal      .tl_set:N = \l_kau_postal_tl,
+    city        .tl_set:N = \l_kau_city_tl,
+    phone       .tl_set:N = \l_kau_phone_tl,
+    web         .tl_set:N = \l_kau_web_tl,
+    margin-left   .dim_set:N = \l_kau_margin_left_dim,
+    margin-right  .dim_set:N = \l_kau_margin_right_dim,
+    margin-top    .dim_set:N = \l_kau_margin_top_dim,
+    margin-bottom .dim_set:N = \l_kau_margin_bottom_dim,
+    fonts .choice:,
+    fonts/none .code:n = { \bool_set_false:N \l_kau_fonts_text_bool },
+    fonts/text .code:n = { \bool_set_true:N  \l_kau_fonts_text_bool },
+    firstpage .bool_set:N = \l_kau_firstpage_bool,
+    firstpage .default:n = true,
+    firstpage-header .bool_set:N = \l_kau_firstpage_header_bool,
+    firstpage-header .default:n = true,
+    firstpage-footer .bool_set:N = \l_kau_firstpage_footer_bool,
+    firstpage-footer .default:n = true,
+    firstpage-faculty .bool_set:N = \l_kau_firstpage_faculty_bool,
+    firstpage-faculty .default:n = true,
+    unknown .code:n =
+      { \msg_warning:nnx { kau } { unknown-key } { \l_keys_key_str } },
+  }
+
+\keys_set:nn { kau }
+  {
+    profile      = 2025,
+    language     = swedish,
+    faculty      = {Fakulteten~för~humaniora~och~samhällsvetenskap},
+    faculty-en   = {Faculty~of~Arts~and~Social~Sciences},
+    university   = {Karlstads~universitet},
+    street       = {Universitetsgatan~2},
+    postal       = {651~88~Karlstad},
+    city         = {Karlstad},
+    phone        = {054--700~1000},
+    web          = {www.kau.se},
+    margin-left  = 2.5cm,
+    margin-right = 2.5cm,
+    margin-top   = 3cm,
+    margin-bottom = 3.5cm,
+    firstpage         = false,
+    firstpage-header  = false,
+    firstpage-footer  = false,
+    firstpage-faculty = false,
+  }
+
+\ProcessKeyOptions[kau]
+
+\bool_if:NT \l_kau_fonts_text_bool { \RequirePackage{kaurubriker} }
+
+% Compatibility: old documents and themes asked for craneorange even though
+% the KAU value is the profile yellow. Only define it when absent.
+\cs_if_exist:cF { color@craneorange }
+  { \colorlet{craneorange}{kaugul} }
+
+% ---------------------------------------------------------------------------
+% Public API
+% ---------------------------------------------------------------------------
+\NewDocumentCommand \kausetup { m }
+  {
+    \keys_set:nn { kau } {#1}
+    \bool_if:NT \l_kau_fonts_text_bool
+      {
+        \@ifpackageloaded{kaurubriker}{}
+          { \msg_warning:nn { kau } { fonts-need-preamble } }
+      }
+  }
+\msg_new:nnn { kau } { fonts-need-preamble }
+  { The~'fonts=text'~key~must~be~set~as~a~package~option~or~in~the~preamble. }
+
+\NewExpandableDocumentCommand \kauprofile  { } { \tl_use:N \l_kau_profile_tl }
+\NewExpandableDocumentCommand \kaulanguage { } { \tl_use:N \l_kau_language_tl }
+
+\NewExpandableDocumentCommand \kauifswedish { m m }
+  { \tl_if_eq:NnTF \l_kau_language_tl { swedish } {#1} {#2} }
+\NewExpandableDocumentCommand \kauifenglish { m m }
+  { \tl_if_eq:NnTF \l_kau_language_tl { english } {#1} {#2} }
+\NewExpandableDocumentCommand \kauiffirstpage { m m }
+  { \bool_if:NTF \l_kau_firstpage_bool {#1} {#2} }
+\NewExpandableDocumentCommand \kauiffirstpageheader { m m }
+  { \bool_if:NTF \l_kau_firstpage_header_bool {#1} {#2} }
+\NewExpandableDocumentCommand \kauiffirstpagefooter { m m }
+  { \bool_if:NTF \l_kau_firstpage_footer_bool {#1} {#2} }
+\NewExpandableDocumentCommand \kauiffirstpagefaculty { m m }
+  { \bool_if:NTF \l_kau_firstpage_faculty_bool {#1} {#2} }
+
+\NewExpandableDocumentCommand \kaufacultyswedish { } { \tl_use:N \l_kau_faculty_sv_tl }
+\NewExpandableDocumentCommand \kaufacultyenglish { } { \tl_use:N \l_kau_faculty_en_tl }
+\NewExpandableDocumentCommand \kaufaculty { }
+  {
+    \tl_if_eq:NnTF \l_kau_language_tl { english }
+      { \tl_use:N \l_kau_faculty_en_tl }
+      { \tl_use:N \l_kau_faculty_sv_tl }
+  }
+\NewExpandableDocumentCommand \kauuniversity { } { \tl_use:N \l_kau_university_tl }
+\NewExpandableDocumentCommand \kaustreet     { } { \tl_use:N \l_kau_street_tl }
+\NewExpandableDocumentCommand \kaupostal     { } { \tl_use:N \l_kau_postal_tl }
+\NewExpandableDocumentCommand \kaucity       { } { \tl_use:N \l_kau_city_tl }
+\NewExpandableDocumentCommand \kauphone      { } { \tl_use:N \l_kau_phone_tl }
+\NewExpandableDocumentCommand \kauweb        { } { \tl_use:N \l_kau_web_tl }
+
+\NewExpandableDocumentCommand \kauaddress { }
+  { \tl_use:N \l_kau_university_tl ,~ \tl_use:N \l_kau_postal_tl }
+
+\NewExpandableDocumentCommand \kaumargin { m }
+  {
+    \str_case:nnF {#1}
+      {
+        {left}   { \dim_use:N \l_kau_margin_left_dim }
+        {right}  { \dim_use:N \l_kau_margin_right_dim }
+        {top}    { \dim_use:N \l_kau_margin_top_dim }
+        {bottom} { \dim_use:N \l_kau_margin_bottom_dim }
+      }
+      { \msg_error:nnn { kau } { bad-margin } {#1} }
+  }
+
+\NewDocumentCommand \kauinsertlogo { O{width=90pt} }
+  { \tl_if_empty:NF \l_kau_logo_tl { \includegraphics[#1]{\l_kau_logo_tl} } }
+\NewDocumentCommand \kauinsertlogobw { O{width=90pt} }
+  {
+    \tl_if_empty:NTF \l_kau_logo_bw_tl
+      { \kauinsertlogo[#1] }
+      { \includegraphics[#1]{\l_kau_logo_bw_tl} }
+  }
+\NewDocumentCommand \kauinsertlogocolor { O{width=90pt} }
+  {
+    \tl_if_empty:NTF \l_kau_logo_color_tl
+      { \kauinsertlogo[#1] }
+      { \includegraphics[#1]{\l_kau_logo_color_tl} }
+  }
+
+\endinput

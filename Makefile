@@ -1,11 +1,18 @@
 SHELL := /bin/sh
-SUBPROJECTS := kaucolors kaurubriker beamerthemeSingaporeKAU beamerthemeKAUposter
+SUBPROJECTS := kaucolors kaurubriker kau-style kau-firstpage beamerthemeSingaporeKAU beamerthemeKAUposter
 TEXMFHOME ?= $(HOME)/Library/texmf
+CHECKTEXMF := $(CURDIR)/.check-texmf
 
 .PHONY: check save install clean
 
 check:
-	@set -e; for d in $(SUBPROJECTS); do echo "== $$d"; ( cd $$d && l3build check ); done
+	rm -rf "$(CHECKTEXMF)"
+	@set -e; for d in $(SUBPROJECTS); do \
+	  ( cd $$d && l3build install --texmfhome "$(CHECKTEXMF)" >/dev/null ); \
+	done
+	@set -e; for d in $(SUBPROJECTS); do \
+	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check ); \
+	done
 
 # TEST=<name> make save
 save:

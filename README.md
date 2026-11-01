@@ -8,6 +8,8 @@ Karlstads universitet LaTeX packages. Public repository.
 |---|---|---|
 | `kaucolors` | `kaucolors` | canonical 2025 colour tokens |
 | `kaurubriker` | `kaurubriker`, `kau_rubriker` | heading font chain with fallbacks; `kau_rubriker` is a compatibility wrapper |
+| `kau-style` | `kau-style` | class-agnostic core: `\kausetup`, metadata, margins, logo accessors, `craneorange` compatibility |
+| `kau-firstpage` | `kau-firstpage` | logo/footer/first-page helpers for text classes, plus the legacy `\kaustyle*` wrappers |
 | `beamerthemeSingaporeKAU` | `beamerthemeSingaporeKAU` | miniframes, yellow header shading, title page |
 | `beamerthemeKAUposter` | `beamerthemeKAUposter`, `beamerthemeKAUposterNOLOGO` | poster themes; the NOLOGO variant builds on the main theme |
 
@@ -17,11 +19,9 @@ themes.
 
 ## Still to do
 
-- `kau-style`: the shared six-element style layer.
-- `kau-firstpage`: the approved title page, with `krissen-document` wrappers
-  forwarding to it.
-- `beamertheme-floral-kau`: thin configuration over the separate
-  `beamer-floral` repository.
+- `krissen-document` wrappers forwarding to `kau-firstpage`.
+- `beamertheme-floral-kau`: owned by the `floral` session; do not implement
+  here until its API is stable.
 - Section dividers (decide opt-in vs default).
 - Full brand audit, document migration and removal of `craneorange`
   overrides.

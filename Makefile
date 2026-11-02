@@ -22,7 +22,7 @@ CHECKPROJECTS ?= $(SUBPROJECTS)
 CHECKTESTS ?=
 
 .DEFAULT_GOAL := check
-.PHONY: check save install clean deps
+.PHONY: check checktree save install clean deps
 
 # beamer-floral and tikzflora are not l3build projects of this repo; place
 # them in the check tree so the sola-floral test can load them.
@@ -36,20 +36,27 @@ deps:
 	  echo "note: beamer-floral/tikzflora checkouts not found; using installed copies if present" >&2; \
 	fi
 
-check:
+# check and save run against the same tree: this repository's packages and
+# the floral dependencies, installed into $(CHECKTEXMF).
+checktree:
 	rm -rf "$(CHECKTEXMF)"
 	@set -e; for d in $(SUBPROJECTS); do \
 	  ( cd $$d && l3build install --texmfhome "$(CHECKTEXMF)" >/dev/null ); \
 	done
 	@$(MAKE) deps
+
+check: checktree
 	@failed=; for d in $(CHECKPROJECTS); do \
 	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check $(CHECKTESTS) ) || failed="$$failed $$d"; \
 	done; \
 	if [ -n "$$failed" ]; then echo "failed:$$failed" >&2; exit 1; fi
 
-# TEST=<name> make save
-save:
-	@set -e; for d in $(SUBPROJECTS); do ( cd $$d && l3build save -e luatex $(TEST) ); done
+# make save                              every test
+# CHECKPROJECTS=<dir> TEST=<name> make save   one test
+save: checktree
+	@set -e; for d in $(CHECKPROJECTS); do ( cd $$d && \
+	  tests="$(TEST)"; [ -n "$$tests" ] || tests=$$(cd testfiles && ls *.lvt | sed 's/\.lvt$$//'); \
+	  TEXMFHOME="$(CHECKTEXMF)" l3build save -e luatex $$tests ); done
 
 install:
 	@set -e; for d in $(SUBPROJECTS); do ( cd $$d && l3build install --texmfhome "$(TEXMFHOME)" ); done

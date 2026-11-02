@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: krissen/beamer-floral
-          ref: f360283
+          ref: f360283b9832b44914f84ed60a5a9e704a21ef05
           path: deps/beamer-floral
       - uses: actions/checkout@v4
         with:

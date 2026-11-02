@@ -27,9 +27,72 @@
 }
 \DeclareOptionBeamer{nologo}{\beamer@kau@titlelogofalse}
 
+\newif\ifbeamer@kau@lightframesubtitle
+\beamer@kau@lightframesubtitlefalse
+\DeclareOptionBeamer{framesubtitle}[canonical]{%
+  \def\beamer@kau@fsvalue{#1}%
+  \def\beamer@kau@fslight{light}%
+  \ifx\beamer@kau@fsvalue\beamer@kau@fslight
+    \beamer@kau@lightframesubtitletrue
+  \else
+    \beamer@kau@lightframesubtitlefalse
+  \fi
+}
+
 \ProcessOptionsBeamer
 
 \mode<presentation>
+
+% Inner themes such as rounded set the title and section page templates to
+% the beamer default. Append a re-apply to \beamer@calltheme, which every
+% \useinnertheme (and the other theme commands) goes through. A document
+% that sets its own template afterwards still wins.
+\RequirePackage{etoolbox}
+\newcommand\sola@settemplates{%
+  \setbeamertemplate{title page}[Sola]%
+  \setbeamertemplate{section page}[Sola]%
+}
+\ifdefined\sola@calltheme@patched\else
+  \apptocmd{\beamer@calltheme}{\sola@settemplates}{}{}%
+  \def\sola@calltheme@patched{}%
+\fi
+
+% Profile typography. Adobe's fonts are used when present; otherwise fall
+% back to system Helvetica/Arial and finally to a plain sans.
+\RequirePackage{fontspec}
+\usefonttheme{professionalfonts}
+
+\newcommand\kauSola@adobepath{/Users/krisniem/Library/Application Support/Adobe/.User Owned Fonts/}
+\newcommand\kauSola@font[3]{%
+  \IfFileExists{\kauSola@adobepath#2}{%
+    \newfontfamily#1[Path={\kauSola@adobepath},UprightFont={#2}]{#2}%
+  }{%
+    \newcommand#1{#3}%
+  }%
+}
+\kauSola@font{\kauLXXVII}{Helvetica Neue LT Com 77 Bold Condensed-13b6.otf}{\sffamily\bfseries}
+\kauSola@font{\kauLXVII}{Helvetica Neue LT Com 67 Medium Condensed-f3ce.otf}{\sffamily\mdseries}
+\kauSola@font{\kauLVII}{Helvetica Neue LT Com 57 Condensed-4b51.otf}{\sffamily\mdseries}
+\kauSola@font{\kauXLVII}{Helvetica Neue LT Com 47 Light Condensed-1db6.otf}{\sffamily\mdseries}
+
+\IfFontExistsTF{Helvetica Neue}{\setsansfont{Helvetica Neue}}{%
+  \IfFontExistsTF{Arial}{\setsansfont{Arial}}{%
+    \IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}}{}%
+  }%
+}
+
+\setbeamerfont{title}{family=\kauLXXVII,size={\fontsize{23}{27}\selectfont}}
+\setbeamerfont{subtitle}{family=\kauLVII,size=\large}
+\setbeamerfont{frametitle}{family=\kauLXVII,series=\mdseries,size=\Large}
+\ifbeamer@kau@lightframesubtitle
+  \setbeamerfont{framesubtitle}{family=\kauXLVII,series=\mdseries,size=\large}
+\else
+  \setbeamerfont{framesubtitle}{family=\kauLVII,series=\mdseries,size=\large}
+\fi
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamerfont{block body}{size=\small}
+\setbeamerfont{itemize/enumerate body}{size=\small}
+\setbeamerfont{description body}{size=\small}
 
 \setbeamercolor{section in head/foot}{use=structure,bg=structure.fg!25!bg}
 
@@ -44,19 +107,20 @@
 \setbeamertemplate{logo}{}
 \setbeamercolor{lower separation line head}{bg=black}
 
-% Title page. The KAU logo is on by default and comes from
-% \kausetup{logo=...}. Extra logos and a contributor block are optional:
-%   \kausetup{title-logos={partner.pdf}, title-logo-width=0.12\paperwidth,
-%             contributors={Medverkande:\\ Name, Role}}
-% or \kautitlelogo{partner.pdf}, \kautitlecontributors{...},
-% \kautitleextra{...}.
+% Title page from the approved profile layout (kaumall). The KAU logo is
+% on by default and comes from \kausetup{logo=...}; extra logos and a
+% contributor block are optional additions.
+\providecommand\kautitleheader{}
+\providecommand\kautitlebody{}
 \defbeamertemplate*{title page}{Sola}[1][]{%
   \vspace*{1cm}%
   \usebeamercolor{structure}%
-  \begin{beamercolorbox}[wd=\paperwidth,ht=8ex,dp=3ex,right]{title}%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=\dimexpr 8ex+0.7mm\relax,dp=\dimexpr 3ex-0.7mm\relax,right]{title}%
+    \kautitleheader
     \usebeamerfont{title}\inserttitle\hspace*{10mm}\par
     \usebeamerfont{subtitle}\usebeamercolor{subtitle}\insertsubtitle\hspace*{10mm}\par
   \end{beamercolorbox}%
+  \kautitlebody
   \bigskip
   \begin{flushright}
     \usebeamerfont{author}\insertauthor\par
@@ -65,25 +129,25 @@
     \usebeamerfont{date}\insertdate\par
   \end{flushright}
   \vfill
-  \begin{flushright}
-    \kauifcontributors
-      {{\raggedleft\scriptsize \kaucontributors\par}\vspace{0.5cm}}{}%
-    \ifbeamer@kau@titlelogo
-      \kauiflogo
-        {%
-          \IfFileExists{\kaulogo}
-            { \includegraphics[width=0.15\paperwidth]{\kaulogo} }
-            { \PackageWarning{beamerthemeSola}{Logo file not found: \kaulogo} }%
-        }{}%
-    \fi
-    \kauiftitlelogos{\hspace{0.5em}\kauinserttitlelogos}{}%
-    \kauiftitleextra{\par\vspace{0.3cm}\kautitleextracontent}{}%
-    \vspace*{0.8cm}%
-  \end{flushright}
+  \kauifcontributors
+    {{\raggedleft\scriptsize \kaucontributors\par}\vspace{0.5cm}}{}%
+  \ifbeamer@kau@titlelogo
+    \kauiflogo
+      {%
+        \IfFileExists{\kaulogo}
+          { \includegraphics[width=0.15\paperwidth]{\kaulogo} }
+          { \PackageWarning{beamerthemeSola}{Logo file not found: \kaulogo} }%
+      }{}%
+  \fi
+  \kauiftitlelogos{\hspace{0.5em}\kauinserttitlelogos}{}%
+  \kauiftitleextra{\par\vspace{0.3cm}\kautitleextracontent}{}%
+  \vspace*{0.8cm}%
 }
+\setbeamertemplate{title page}[Sola]
+\defbeamertemplatealias{title page}{SingaporeKAU}{Sola}
 
 \AtBeginDocument{%
-  \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+    \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
   {%
     color(0cm)=(kaugul);
     color(1.25cm)=(white!65!kaugul)%
@@ -121,14 +185,18 @@
 
 % Section dividers: opt in with \usetheme[sections=dividers]{Sola}, or
 % typeset a single one with \kausectionpage[optional title].
+\providecommand\kausectionheader{}
+\providecommand\kausectionbody{}
 \defbeamertemplate*{section page}{Sola}{%
   \begin{beamercolorbox}[wd=\paperwidth,ht=12ex,dp=4ex,left]{title}
-    \hspace*{10mm}%
-    {\usebeamerfont{title}\insertsectionhead\par}%
+    \kausectionheader
+    \hspace*{10mm}{\kauLXXVII\Huge\insertsectionhead\par}%
   \end{beamercolorbox}%
+  \kausectionbody
   \vfill
 }
 \setbeamertemplate{section page}[Sola]
+\defbeamertemplatealias{section page}{SingaporeKAU}{Sola}
 
 \NewDocumentCommand \kausectionpage { O{} }
   {

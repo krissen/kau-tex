@@ -1,0 +1,12 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme[framesubtitle=light]{Sola}
+\begin{document}
+\START
+\makeatletter
+\TESTEXP{light framesubtitle}{\ifbeamer@kau@lightframesubtitle TRUE\else FALSE\fi}
+\makeatother
+\begin{frame}{Test}
+Body.
+\end{frame}
+\end{document}

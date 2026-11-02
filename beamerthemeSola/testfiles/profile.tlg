@@ -1,0 +1,46 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: title font
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 2: frametitle font
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 3: framesubtitle font
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 4: bundled logo
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 5: canonical framesubtitle default
+============================================================
+TRUE
+============================================================
+<kau_logga.pdf, id=14, 163.10938pt x 163.10938pt>
+File: kau_logga.pdf Graphic file (type pdf)
+<use kau_logga.pdf>
+Package luatex.def Info: kau_logga.pdf  used on input line ....
+(luatex.def)             Requested size: 68.28383pt x 68.28644pt.
+[1
+<../kau_logga.pdf>]
+[2
+]
+\tf@nav=\write...
+\tf@toc=\write...
+\tf@snm=\write...
+(profile.aux)
+Package rerunfilecheck Warning: File `profile.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+Package rerunfilecheck Info: Checksums for `profile.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.

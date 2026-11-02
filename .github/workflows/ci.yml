@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: krissen/beamer-floral
+          ref: f360283b9832b44914f84ed60a5a9e704a21ef05
+          path: deps/beamer-floral
+      - uses: actions/checkout@v4
+        with:
+          repository: krissen/tikz-flora
+          ref: 4797f0eb91fb9911d5f072a24ab311ef8ae1e4ee
+          path: deps/tikz-flora
+      - name: make check
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/work" -w /work \
+            -e BEAMER_FLORAL=/work/deps/beamer-floral \
+            -e TIKZFLORA=/work/deps/tikz-flora \
+            texlive/texlive:latest \
+            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check CHECKPROJECTS=sola-floral CHECKTESTS=solafloral'
+      - name: show diffs
+        if: failure()
+        run: find . -name '*.diff' -print -exec cat {} \;

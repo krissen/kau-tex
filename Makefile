@@ -18,6 +18,8 @@ export TEXINPUTS := $(TIKZFLORA)/tex//:$(TEXINPUTS)
 export FLORA_LUA := $(TIKZFLORA)/lua
 endif
 CHECKTEXMF := $(CURDIR)/.check-texmf
+CHECKPROJECTS ?= $(SUBPROJECTS)
+CHECKTESTS ?=
 
 .DEFAULT_GOAL := check
 .PHONY: check save install clean deps
@@ -40,8 +42,8 @@ check:
 	  ( cd $$d && l3build install --texmfhome "$(CHECKTEXMF)" >/dev/null ); \
 	done
 	@$(MAKE) deps
-	@set -e; for d in $(SUBPROJECTS); do \
-	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check ); \
+	@set -e; for d in $(CHECKPROJECTS); do \
+	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check $(CHECKTESTS) ); \
 	done
 
 # TEST=<name> make save

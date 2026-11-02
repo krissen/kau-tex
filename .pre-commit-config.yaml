@@ -1,0 +1,11 @@
+# Enable with: git config prek.enabled true
+repos:
+  - repo: local
+    hooks:
+      - id: make-check
+        name: make check
+        entry: make check
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        files: '(\.(sty|cls|def|dtx|ins|lvt|tlg|lua|tex)|Makefile)$'

@@ -5,3 +5,6 @@ installfiles = {"*.sty"}
 sourcefiles = {"*.sty"}
 checkengines = {"luatex"}
 stdengine = "luatex"
+
+-- Portable logs across macOS and Linux; see ../testenv.lua.
+dofile("../testenv.lua")

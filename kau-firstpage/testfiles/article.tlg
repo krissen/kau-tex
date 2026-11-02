@@ -18,4 +18,5 @@ TEST 2: footer set
 ============================================================
 [1
 <../example-image-a.pdf>]
-[2] (article.aux)
+[2]
+(article.aux)

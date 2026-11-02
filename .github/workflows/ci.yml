@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: krissen/tikz-flora
-          ref: 1cd6c7b836f3f383d361e03915e56af1b292c304
+          ref: ac7c0487480671dcc320e4a8be3f5f2c7a0168b8
           path: deps/tikz-flora
       - name: make check
         run: |

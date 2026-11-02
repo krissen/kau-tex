@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: krissen/beamer-floral
+          ref: f360283
+          path: deps/beamer-floral
+      - uses: actions/checkout@v4
+        with:
+          repository: krissen/tikz-flora
+          ref: 818e50d2f3a2e70e4ee59d58df772efac190d125
+          path: deps/tikz-flora
+      - name: make check
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/work" -w /work \
+            -e BEAMER_FLORAL=/work/deps/beamer-floral \
+            -e TIKZFLORA=/work/deps/tikz-flora \
+            texlive/texlive:latest \
+            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check'

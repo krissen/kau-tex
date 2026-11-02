@@ -16,12 +16,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: krissen/beamer-floral
-          ref: f360283b9832b44914f84ed60a5a9e704a21ef05
+          ref: d5944999e4425f6210f52ae8e2066cddcb7a469d
           path: deps/beamer-floral
       - uses: actions/checkout@v4
         with:
           repository: krissen/tikz-flora
-          ref: 4797f0eb91fb9911d5f072a24ab311ef8ae1e4ee
+          ref: ac7c0487480671dcc320e4a8be3f5f2c7a0168b8
           path: deps/tikz-flora
       - name: make check
         run: |

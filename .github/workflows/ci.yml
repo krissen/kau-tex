@@ -1,12 +1,20 @@
 name: CI
 
+# Pull requests are the gate; a squash merge of a green PR adds nothing to
+# test on main. Docs-only changes do not compile anything.
 on:
-  push:
-    branches: [main]
   pull_request:
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check:
@@ -30,7 +38,7 @@ jobs:
             -e BEAMER_FLORAL=/work/deps/beamer-floral \
             -e TIKZFLORA=/work/deps/tikz-flora \
             texlive/texlive:latest \
-            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check CHECKPROJECTS=sola-floral CHECKTESTS=solafloral'
+            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check'
       - name: show diffs
         if: failure()
         run: find . -name '*.diff' -print -exec cat {} \;

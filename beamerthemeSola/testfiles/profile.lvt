@@ -1,0 +1,30 @@
+\input regression-test.tex\relax
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Sola}
+\useinnertheme{rounded}
+\usecolortheme{crane}
+\newif\ifKauLogoFound
+\IfFileExists{kau_logga.pdf}{\KauLogoFoundtrue}{\KauLogoFoundfalse}
+\title{Test}
+\subtitle{Subtitle}
+\author{Author}
+\institute{Institute}
+\date{Date}
+\begin{document}
+\START
+\TESTEXP{title font}{\ifdefined\kauLXXVII TRUE\else FALSE\fi}
+\TESTEXP{frametitle font}{\ifdefined\kauLXVII TRUE\else FALSE\fi}
+\TESTEXP{framesubtitle font}{\ifdefined\kauLVII TRUE\else FALSE\fi}
+\TESTEXP{bundled logo}{\ifKauLogoFound TRUE\else FALSE\fi}
+\makeatletter
+\TESTEXP{canonical framesubtitle default}{%
+  \ifbeamer@kau@lightframesubtitle FALSE\else TRUE\fi}
+\makeatother
+\setbeamertemplate{title page}[SingaporeKAU]
+\begin{frame}[plain,t]
+  \titlepage
+\end{frame}
+\begin{frame}{Content}
+Body.
+\end{frame}
+\end{document}

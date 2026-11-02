@@ -6,8 +6,8 @@ TEXMFHOME ?= $(HOME)/Library/texmf
 # tests run against these commits, fetched into .deps/ by `make fetchdeps`
 # (CI and the pre-push hook do the same). Bumping a pin means re-saving the
 # sola-floral expectations.
-BEAMER_FLORAL_REF := d5944999e4425f6210f52ae8e2066cddcb7a469d
-TIKZFLORA_REF := ac7c0487480671dcc320e4a8be3f5f2c7a0168b8
+BEAMER_FLORAL_REF := 5c51fa97c8b52dce7ed41866acb5500e38a780da
+TIKZFLORA_REF := 2c1fc8e707d4ad5f04d70805da62bc0888923a1f
 # To test against working checkouts instead, set the paths in an untracked
 # local.mk:
 #   BEAMER_FLORAL := /path/to/beamer-floral

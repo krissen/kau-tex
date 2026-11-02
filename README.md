@@ -24,15 +24,15 @@ The themes require `kau-style` (which loads `kaucolors`); no theme defines
 its own `kaugul` or depends on `craneorange`. `tangocolors` (TeX Live) is
 used by the poster themes.
 
-`sola-floral` bygger på `beamer-floral` och `krissen/tikz-flora`. För lokal
-kontroll kan en icke versionshanterad `local.mk` peka ut lokala checkouts:
+`sola-floral` builds on `beamer-floral` and `krissen/tikz-flora`. The
+tests run against the commits pinned in the `Makefile`; `make check` fetches
+them into `.deps/`. To test against your own checkouts instead, point an
+untracked `local.mk` at them:
 
 ```make
 BEAMER_FLORAL := /path/to/beamer-floral
 TIKZFLORA := /path/to/tikz-flora
 ```
-
-Utan `local.mk` används de kopior som finns installerade i TeX-trädet.
 
 Section dividers are opt-in:
 
@@ -77,6 +77,11 @@ redefining the title page.
 make check
 make install
 ```
+
+CI runs `make check` on pull requests. A pre-push hook runs it locally when
+a push touches the packages or tests; enable it with
+`git config prek.enabled true`. A pin bump in the `Makefile` needs new
+`sola-floral` expectations: `CHECKPROJECTS=sola-floral make save`.
 
 ## Licence
 

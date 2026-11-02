@@ -20,7 +20,6 @@
 \TESTEXP{canonical framesubtitle default}{%
   \ifbeamer@kau@lightframesubtitle FALSE\else TRUE\fi}
 \makeatother
-\setbeamertemplate{title page}[SingaporeKAU]
 \begin{frame}[plain,t]
   \titlepage
 \end{frame}

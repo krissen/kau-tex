@@ -63,21 +63,17 @@
 \usefonttheme{professionalfonts}
 
 \newcommand\kauSola@adobepath{/Users/krisniem/Library/Application Support/Adobe/.User Owned Fonts/}
-\newcommand\kauSola@font[4]{%
+\newcommand\kauSola@font[3]{%
   \IfFileExists{\kauSola@adobepath#2}{%
-    \newfontfamily#1[Path={\kauSola@adobepath},Extension=.otf,UprightFont={#2}]{#2}%
+    \newfontfamily#1[Path={\kauSola@adobepath},UprightFont={#2}]{#2}%
   }{%
-    \IfFontExistsTF{#3}{%
-      \newfontfamily#1[Scale=MatchLowercase]{#3}%
-    }{%
-      \newcommand#1{#4}%
-    }%
+    \newcommand#1{#3}%
   }%
 }
-\kauSola@font{\kauLXXVII}{Helvetica Neue LT Com 77 Bold Condensed-13b6.otf}{Helvetica Neue}{\sffamily\bfseries}
-\kauSola@font{\kauLXVII}{Helvetica Neue LT Com 67 Medium Condensed-f3ce.otf}{Helvetica Neue}{\sffamily}
-\kauSola@font{\kauLVII}{Helvetica Neue LT Com 57 Condensed-4b51.otf}{Helvetica Neue}{\sffamily}
-\kauSola@font{\kauXLVII}{Helvetica Neue LT Com 47 Light Condensed-1db6.otf}{Helvetica Neue}{\sffamily}
+\kauSola@font{\kauLXXVII}{Helvetica Neue LT Com 77 Bold Condensed-13b6.otf}{\sffamily\bfseries}
+\kauSola@font{\kauLXVII}{Helvetica Neue LT Com 67 Medium Condensed-f3ce.otf}{\sffamily\mdseries}
+\kauSola@font{\kauLVII}{Helvetica Neue LT Com 57 Condensed-4b51.otf}{\sffamily\mdseries}
+\kauSola@font{\kauXLVII}{Helvetica Neue LT Com 47 Light Condensed-1db6.otf}{\sffamily\mdseries}
 
 \IfFontExistsTF{Helvetica Neue}{\setsansfont{Helvetica Neue}}{%
   \IfFontExistsTF{Arial}{\setsansfont{Arial}}{%

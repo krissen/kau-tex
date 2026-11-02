@@ -42,9 +42,10 @@ check:
 	  ( cd $$d && l3build install --texmfhome "$(CHECKTEXMF)" >/dev/null ); \
 	done
 	@$(MAKE) deps
-	@set -e; for d in $(CHECKPROJECTS); do \
-	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check $(CHECKTESTS) ); \
-	done
+	@failed=; for d in $(CHECKPROJECTS); do \
+	  echo "== $$d"; ( cd $$d && TEXMFHOME="$(CHECKTEXMF)" l3build check $(CHECKTESTS) ) || failed="$$failed $$d"; \
+	done; \
+	if [ -n "$$failed" ]; then echo "failed:$$failed" >&2; exit 1; fi
 
 # TEST=<name> make save
 save:

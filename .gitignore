@@ -9,6 +9,7 @@ build/
 *.synctex.gz
 *.pdf
 .check-texmf/
+.deps/
 local.mk
 .DS_Store
 !kaulogo/*.pdf

@@ -21,24 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: krissen/beamer-floral
-          ref: d5944999e4425f6210f52ae8e2066cddcb7a469d
-          path: deps/beamer-floral
-      - uses: actions/checkout@v4
-        with:
-          repository: krissen/tikz-flora
-          ref: ac7c0487480671dcc320e4a8be3f5f2c7a0168b8
-          path: deps/tikz-flora
+      # The pins live in the Makefile. Fetch them on the runner; the container
+      # runs as another user and only reads them.
+      - run: make fetchdeps
       - name: make check
         run: |
-          docker run --rm \
-            -v "$GITHUB_WORKSPACE:/work" -w /work \
-            -e BEAMER_FLORAL=/work/deps/beamer-floral \
-            -e TIKZFLORA=/work/deps/tikz-flora \
+          docker run --rm -v "$GITHUB_WORKSPACE:/work" -w /work \
             texlive/texlive:latest \
-            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check'
+            sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && make check FETCHDEPS='
       - name: show diffs
         if: failure()
         run: find . -name '*.diff' -print -exec cat {} \;

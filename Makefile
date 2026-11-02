@@ -2,13 +2,23 @@ SHELL := /bin/sh
 SUBPROJECTS := kaulogo kaucolors kaurubriker kau-style kau-firstpage beamerthemeSola beamerthemeKAUposter sola-floral
 TEXMFHOME ?= $(HOME)/Library/texmf
 
-# sola-floral builds on beamer-floral and the krissen/tikz-flora fork.
-# Local checkouts are optional and belong in an untracked local.mk:
+# sola-floral builds on beamer-floral and the krissen/tikz-flora fork. The
+# tests run against these commits, fetched into .deps/ by `make fetchdeps`
+# (CI and the pre-push hook do the same). Bumping a pin means re-saving the
+# sola-floral expectations.
+BEAMER_FLORAL_REF := d5944999e4425f6210f52ae8e2066cddcb7a469d
+TIKZFLORA_REF := ac7c0487480671dcc320e4a8be3f5f2c7a0168b8
+# To test against working checkouts instead, set the paths in an untracked
+# local.mk:
 #   BEAMER_FLORAL := /path/to/beamer-floral
 #   TIKZFLORA := /path/to/tikz-flora
-BEAMER_FLORAL ?=
-TIKZFLORA ?=
 -include local.mk
+DEPS := $(CURDIR)/.deps
+ifeq ($(strip $(BEAMER_FLORAL)$(TIKZFLORA)),)
+BEAMER_FLORAL := $(DEPS)/beamer-floral
+TIKZFLORA := $(DEPS)/tikz-flora
+FETCHDEPS := fetchdeps
+endif
 
 ifneq ($(strip $(BEAMER_FLORAL)),)
 export TEXINPUTS := $(BEAMER_FLORAL)//:$(TEXINPUTS)
@@ -22,7 +32,18 @@ CHECKPROJECTS ?= $(SUBPROJECTS)
 CHECKTESTS ?=
 
 .DEFAULT_GOAL := check
-.PHONY: check checktree save install clean deps
+.PHONY: check checktree save install clean deps fetchdeps
+
+# Clones once, then fetches only when a pin moves. A git hook exports
+# GIT_DIR and friends for this repository; drop them for the clones.
+fetchdeps:
+	@set -e; unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_PREFIX GIT_OBJECT_DIRECTORY; fetch() { \
+	  [ -d "$$1/.git" ] || git clone -q --filter=blob:none --no-checkout "$$2" "$$1"; \
+	  git -C "$$1" cat-file -e "$$3^{commit}" 2>/dev/null || git -C "$$1" fetch -q origin "$$3"; \
+	  git -C "$$1" -c advice.detachedHead=false checkout -q --detach "$$3"; \
+	}; \
+	fetch "$(DEPS)/beamer-floral" https://github.com/krissen/beamer-floral.git $(BEAMER_FLORAL_REF); \
+	fetch "$(DEPS)/tikz-flora" https://github.com/krissen/tikz-flora.git $(TIKZFLORA_REF)
 
 # beamer-floral and tikzflora are not l3build projects of this repo; place
 # them in the check tree so the sola-floral test can load them.
@@ -38,7 +59,7 @@ deps:
 
 # check and save run against the same tree: this repository's packages and
 # the floral dependencies, installed into $(CHECKTEXMF).
-checktree:
+checktree: $(FETCHDEPS)
 	rm -rf "$(CHECKTEXMF)"
 	@set -e; for d in $(SUBPROJECTS); do \
 	  ( cd $$d && l3build install --texmfhome "$(CHECKTEXMF)" >/dev/null ); \

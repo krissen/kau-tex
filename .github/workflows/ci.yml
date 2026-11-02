@@ -31,3 +31,6 @@ jobs:
             -e TIKZFLORA=/work/deps/tikz-flora \
             texlive/texlive:latest \
             sh -c 'apt-get update -qq && apt-get install -y -qq make >/dev/null && printf "BEAMER_FLORAL := %s\nTIKZFLORA := %s\n" "$BEAMER_FLORAL" "$TIKZFLORA" > local.mk && make check CHECKPROJECTS=sola-floral'
+      - name: show diffs
+        if: failure()
+        run: find . -name '*.diff' -print -exec cat {} \;

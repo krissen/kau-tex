@@ -12,12 +12,14 @@
 \IfFontExistsTF{EBGaramond}{\setmainfont{EBGaramond}}{}
 \IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}}{}
 \makeatletter
+% The heading face is bold already; naming it as its own bold keeps
+% beamer's \bfseries titles from falling back with a font warning.
 \@ifundefined{kaurubrikfont}{%
   \IfFontExistsTF{Helvetica Neue Condensed Bold}{%
-    \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase]{Helvetica Neue Condensed Bold}%
+    \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase, BoldFont={Helvetica Neue Condensed Bold}]{Helvetica Neue Condensed Bold}%
   }{%
     \IfFontExistsTF{Arial Narrow Bold}{%
-      \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase]{Arial Narrow Bold}%
+      \newfontfamily{\kaurubrikfont}[Scale=MatchLowercase, BoldFont={Arial Narrow Bold}]{Arial Narrow Bold}%
     }{%
       \newcommand{\kaurubrikfont}{\sffamily\bfseries}%
     }%

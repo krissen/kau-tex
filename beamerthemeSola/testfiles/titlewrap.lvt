@@ -1,0 +1,58 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme{Sola}
+\author{Author}
+\institute{Karlstads universitet}
+\date{}
+\makeatletter
+% #1 is the profile height of the band under test.
+\newcommand\kauTestHolds{%
+  \TEST{band holds every line}%
+    {\ifdim\sola@bandht<\ht\sola@bandbox\FALSE\else\TRUE\fi}%
+}
+\newcommand\kauTestProfile[1]{%
+  \TEST{band at profile height}%
+    {\ifdim\sola@bandht=\dimexpr #1\relax\TRUE\else\FALSE\fi}%
+}
+\newcommand\kauTestGrown[1]{%
+  \TEST{band grown beyond profile height}%
+    {\ifdim\sola@bandht>\dimexpr #1\relax\TRUE\else\FALSE\fi}%
+}
+\makeatother
+\begin{document}
+\START
+\title{Test}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestProfile{8ex+0.7mm}
+\end{frame}
+\title{Test}
+\subtitle{Subtitle}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestProfile{8ex+0.7mm}
+\end{frame}
+\title{Essentialism och läromedelsgranskning}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestGrown{8ex+0.7mm}
+\end{frame}
+\title{Essentialism och läromedelsgranskning}
+\subtitle{Subtitle}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestGrown{8ex+0.7mm}
+\end{frame}
+\section{Kort}
+\kausectionpage
+\kauTestHolds
+\kauTestProfile{12ex}
+\section{Essentialism och läromedelsgranskning i religionskunskap}
+\kausectionpage
+\kauTestHolds
+\kauTestGrown{12ex}
+\end{document}

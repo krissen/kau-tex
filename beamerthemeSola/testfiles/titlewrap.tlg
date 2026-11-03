@@ -1,0 +1,101 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+<kau_logga.pdf, id=14, 163.10938pt x 163.10938pt>
+File: kau_logga.pdf Graphic file (type pdf)
+<use kau_logga.pdf>
+Package luatex.def Info: kau_logga.pdf  used on input line ....
+(luatex.def)             Requested size: 54.62708pt x 54.62766pt.
+============================================================
+TEST 1: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 2: band at profile height
+============================================================
+TRUE
+============================================================
+[1
+<../kau_logga.pdf>]
+File: kau_logga.pdf Graphic file (type pdf)
+<use kau_logga.pdf>
+Package luatex.def Info: kau_logga.pdf  used on input line ....
+(luatex.def)             Requested size: 54.62708pt x 54.62766pt.
+============================================================
+TEST 3: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 4: band at profile height
+============================================================
+TRUE
+============================================================
+[2
+]
+File: kau_logga.pdf Graphic file (type pdf)
+<use kau_logga.pdf>
+Package luatex.def Info: kau_logga.pdf  used on input line ....
+(luatex.def)             Requested size: 54.62708pt x 54.62766pt.
+============================================================
+TEST 5: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 6: band grown beyond profile height
+============================================================
+TRUE
+============================================================
+[3
+]
+File: kau_logga.pdf Graphic file (type pdf)
+<use kau_logga.pdf>
+Package luatex.def Info: kau_logga.pdf  used on input line ....
+(luatex.def)             Requested size: 54.62708pt x 54.62766pt.
+============================================================
+TEST 7: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 8: band grown beyond profile height
+============================================================
+TRUE
+============================================================
+[4
+]
+[5
+]
+============================================================
+TEST 9: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 10: band at profile height
+============================================================
+TRUE
+============================================================
+[6
+]
+============================================================
+TEST 11: band holds every line
+============================================================
+TRUE
+============================================================
+============================================================
+TEST 12: band grown beyond profile height
+============================================================
+TRUE
+============================================================
+\tf@nav=\write...
+\tf@toc=\write...
+\tf@snm=\write...
+(titlewrap.aux)
+Package rerunfilecheck Warning: File `titlewrap.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+Package rerunfilecheck Info: Checksums for `titlewrap.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  1B1523A8F79E0D310AD6F7BE98214A7A;401.

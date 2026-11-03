@@ -1,0 +1,88 @@
+\input regression-test.tex\relax
+\documentclass{beamer}
+\usetheme{Sola}
+\author{Author}
+\institute{Karlstads universitet}
+\date{}
+\makeatletter
+% The checks read the band as shipped (\sola@bandout) against the height
+% plus depth of the text it holds; #1 is the profile size of the band.
+\newcommand\kauTestShipped{\dimexpr\ht\sola@bandout+\dp\sola@bandout\relax}
+\newcommand\kauTestHolds{%
+  \TEST{band holds the text with 4mm above and below}%
+    {\ifdim\kauTestShipped<\dimexpr\sola@bandtext+8mm\relax\FALSE\else\TRUE\fi}%
+}
+\newcommand\kauTestProfile[1]{%
+  \TEST{band at profile size}%
+    {\ifdim\kauTestShipped=\dimexpr #1\relax\TRUE\else\FALSE\fi}%
+}
+\newcommand\kauTestGrown[1]{%
+  \TEST{band grown beyond profile size}%
+    {\ifdim\kauTestShipped>\dimexpr #1\relax\TRUE\else\FALSE\fi}%
+}
+\newcommand\kauTestWraps{%
+  \TEST{title wraps inside the 10mm margins}%
+    {\ifdim\sola@bandtext>10pt\TRUE\else\FALSE\fi}%
+}
+\newcounter{kauhook}
+\renewcommand\kautitleheader{\stepcounter{kauhook}}
+\newcommand\kauTestHookOnce{%
+  \TESTEXP{header hook runs once}{\the\value{kauhook}}%
+  \setcounter{kauhook}{0}%
+}
+\makeatother
+\begin{document}
+\START
+\title{}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestProfile{11ex}
+  \kauTestHookOnce
+\end{frame}
+\title{Test}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestProfile{11ex}
+  \kauTestHookOnce
+\end{frame}
+\subtitle{Subtitle}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestProfile{11ex}
+\end{frame}
+\title{Essentialism och läromedelsgranskning}
+\subtitle{}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestGrown{11ex}
+\end{frame}
+\subtitle{Subtitle}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestHolds
+  \kauTestGrown{11ex}
+\end{frame}
+% Two 55mm rules: 110mm fits on the paper but not inside the 10mm
+% margins, so the title must wrap to two lines.
+\title{\rule{55mm}{2mm} \rule{55mm}{2mm}}
+\subtitle{}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestWraps
+\end{frame}
+\section{Kort}
+\kausectionpage
+\kauTestHolds
+\kauTestProfile{16ex}
+\section{Essentialism och läromedelsgranskning i religionskunskap}
+\kausectionpage
+\kauTestHolds
+\kauTestGrown{16ex}
+\kausectionpage[Essentialism och läromedelsgranskning i religionskunskap]
+\kauTestHolds
+\kauTestGrown{16ex}
+\end{document}

@@ -113,27 +113,40 @@
 \providecommand\kautitleheader{}
 \providecommand\kautitlebody{}
 % \sola@band{height}{depth}{leftskip}{rightskip}{colour}{content} sets a
-% full-width band (title page, section page). One line of text keeps the
-% profile height; longer text wraps inside the margins given by the skips
-% and the band grows to hold every line instead of the text running out
-% of it. The registers are set globally so the regression tests can read
-% them.
+% full-width band (title page, section page) of the profile size, height
+% plus depth. The text wraps inside the margins given by the skips and is
+% centred vertically as one block; when it needs more room than the
+% profile size the band grows to the text plus 4mm above and below. The
+% content is typeset once, so header hooks run once per page.
+% \sola@bandtext (height plus depth of the text) and \sola@bandout (the
+% band as shipped) are set globally so the regression tests can read them.
 \newbox\sola@bandbox
+\newbox\sola@bandout
 \newdimen\sola@bandht
+\newdimen\sola@bandtext
 \newcommand\sola@band[6]{%
-  \global\sola@bandht=\dimexpr #1\relax
-  \global\setbox\sola@bandbox=\vbox{%
+  \global\sola@bandht=\dimexpr #1+#2\relax
+  \setbox\sola@bandbox=\vbox{%
     \hsize=\paperwidth
     \@arrayparboxrestore
     \leftskip=#3\relax
     \rightskip=#4\relax
     \leavevmode\ignorespaces#6}%
-  \ifdim\dimexpr\ht\sola@bandbox+3mm\relax>\sola@bandht
-    \global\sola@bandht=\dimexpr\ht\sola@bandbox+3mm\relax
+  \global\sola@bandtext=\dimexpr\ht\sola@bandbox+\dp\sola@bandbox\relax
+  \ifdim\dimexpr\sola@bandtext+8mm\relax>\sola@bandht
+    \global\sola@bandht=\dimexpr\sola@bandtext+8mm\relax
   \fi
-  \begin{beamercolorbox}[wd=\paperwidth,ht=\sola@bandht,dp=#2,leftskip=#3,rightskip=#4]{#5}%
-    #6%
-  \end{beamercolorbox}%
+  % Centre the text in a box of the band's full size, then move the
+  % baseline up by the profile depth so the band keeps its place on the
+  % page relative to what follows.
+  \setbox\sola@bandbox=\vbox to\sola@bandht{\vss\box\sola@bandbox\vss}%
+  \ht\sola@bandbox=\dimexpr\sola@bandht-(#2)\relax
+  \dp\sola@bandbox=\dimexpr #2\relax
+  \global\setbox\sola@bandout=\hbox{%
+    \begin{beamercolorbox}[vmode,wd=\paperwidth]{#5}%
+      \box\sola@bandbox
+    \end{beamercolorbox}}%
+  \copy\sola@bandout
 }
 \defbeamertemplate*{title page}{Sola}[1][]{%
   \vspace*{1cm}%
@@ -141,7 +154,9 @@
   \sola@band{8ex+0.7mm}{\dimexpr 3ex-0.7mm\relax}{10mm plus 1fill}{10mm}{title}{%
     \kautitleheader
     \usebeamerfont{title}\inserttitle\par
-    \usebeamerfont{subtitle}\usebeamercolor{subtitle}\leavevmode\insertsubtitle\par}%
+    \ifx\insertsubtitle\@empty\else
+      \usebeamerfont{subtitle}\usebeamercolor{subtitle}\insertsubtitle\par
+    \fi}%
   \kautitlebody
   \bigskip
   \begin{flushright}

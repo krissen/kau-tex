@@ -20,6 +20,10 @@
   \TEST{band grown beyond profile size}%
     {\ifdim\kauTestShipped>\dimexpr #1\relax\TRUE\else\FALSE\fi}%
 }
+\newcommand\kauTestWraps{%
+  \TEST{title wraps inside the 10mm margins}%
+    {\ifdim\sola@bandtext>10pt\TRUE\else\FALSE\fi}%
+}
 \newcounter{kauhook}
 \renewcommand\kautitleheader{\stepcounter{kauhook}}
 \newcommand\kauTestHookOnce{%
@@ -61,6 +65,14 @@
   \titlepage
   \kauTestHolds
   \kauTestGrown{11ex}
+\end{frame}
+% Two 55mm rules: 110mm fits on the paper but not inside the 10mm
+% margins, so the title must wrap to two lines.
+\title{\rule{55mm}{2mm} \rule{55mm}{2mm}}
+\subtitle{}
+\begin{frame}[plain]
+  \titlepage
+  \kauTestWraps
 \end{frame}
 \section{Kort}
 \kausectionpage

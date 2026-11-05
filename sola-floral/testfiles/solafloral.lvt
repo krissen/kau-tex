@@ -1,6 +1,14 @@
 \input regression-test.tex\relax
 \documentclass{beamer}
 \usetheme{Sola}
+% Preserve explicit host choices, not just coincidentally equal defaults.
+\setbeamersize{text margin left=1.4cm,text margin right=0.8cm}
+\makeatletter
+\newlength\expectedPlainLeft
+\newlength\expectedPlainRight
+\setlength\expectedPlainLeft{\beamer@leftmargin}
+\setlength\expectedPlainRight{\beamer@rightmargin}
+\makeatother
 \usepackage{sola-floral}
 \newlength\solaTestPlain
 \newlength\solaTestFlora
@@ -11,7 +19,15 @@
 \TESTEXP{kaugul}{\solaTestValue}
 \TEST{background band}{\ifdim\florabackgroundheight=2.4cm\TRUE\else\FALSE\fi}
 \floraoff\setlength\solaTestPlain{\textwidth}
+\makeatletter
+\TEST{plain left restored}{\ifdim\beamer@leftmargin=\expectedPlainLeft\TRUE\else\FALSE\fi}
+\TEST{plain right restored}{\ifdim\beamer@rightmargin=\expectedPlainRight\TRUE\else\FALSE\fi}
+\makeatother
 \floraon\setlength\solaTestFlora{\textwidth}
+\makeatletter
+\TEST{floral left margin}{\ifdim\beamer@leftmargin=2.5cm\TRUE\else\FALSE\fi}
+\TEST{floral right margin}{\ifdim\beamer@rightmargin=1cm\TRUE\else\FALSE\fi}
+\makeatother
 \TEST{margins switch}{\ifdim\solaTestPlain=\solaTestFlora\FALSE\else\TRUE\fi}
 \begin{frame}{Test}
 Body.

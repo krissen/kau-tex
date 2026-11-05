@@ -34,6 +34,11 @@ BEAMER_FLORAL := /path/to/beamer-floral
 TIKZFLORA := /path/to/tikz-flora
 ```
 
+The floral dependency supplies its own margins. `sola-floral` captures Sola's
+undecorated margins before loading it, so title/section pages can restore the
+host layout when flora is off. Flora-on frames use 2.5 cm left and 1 cm right.
+The test installation includes the floral Lua adapter as well as its styles.
+
 Section dividers are opt-in:
 
 ```tex

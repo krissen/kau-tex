@@ -1,16 +1,16 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{sola-floral}[2026/11/01 Sola styling for beamer-floral]
 
-\RequirePackage{beamer-floral}
-\RequirePackage{kaucolors}
-
-% The plain margins are the ones beamer starts with; flora adds its column.
+% Capture the host theme's plain margins before floral establishes its own.
 \makeatletter
 \newlength\solafloral@plainleftmargin
 \newlength\solafloral@plainrightmargin
 \setlength\solafloral@plainleftmargin{\beamer@leftmargin}
 \setlength\solafloral@plainrightmargin{\beamer@rightmargin}
 \makeatother
+
+\RequirePackage{beamer-floral}
+\RequirePackage{kaucolors}
 
 \florasetup{layout=surround, header=margin, seed=7, density=1.5, visitors=0.2,
   mix={leaves=3, leaflets=3, sprays=2, bloom=2, ghost=1, curls=0, cyme=0, umbel=0, gyps=0},

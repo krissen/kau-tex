@@ -6,8 +6,8 @@ TEXMFHOME ?= $(HOME)/Library/texmf
 # tests run against these commits, fetched into .deps/ by `make fetchdeps`
 # (CI and the pre-push hook do the same). Bumping a pin means re-saving the
 # sola-floral expectations.
-BEAMER_FLORAL_REF := 5c51fa97c8b52dce7ed41866acb5500e38a780da
-TIKZFLORA_REF := 2c1fc8e707d4ad5f04d70805da62bc0888923a1f
+BEAMER_FLORAL_REF := e40656f7889bb9e634b8cb819ef1b83d4e889cad
+TIKZFLORA_REF := a3553bf6e449026a2e2e62b16e10210e82e9c1ad
 # To test against working checkouts instead, set the paths in an untracked
 # local.mk:
 #   BEAMER_FLORAL := /path/to/beamer-floral
@@ -51,6 +51,7 @@ deps:
 	@if [ -d "$(BEAMER_FLORAL)" ] && [ -d "$(TIKZFLORA)" ]; then \
 	  mkdir -p "$(CHECKTEXMF)/tex/latex/beamer-floral" "$(CHECKTEXMF)/tex/latex/tikzflora"; \
 	  cp "$(BEAMER_FLORAL)"/*.sty "$(CHECKTEXMF)/tex/latex/beamer-floral/"; \
+	  cp "$(BEAMER_FLORAL)/beamer-floral.lua" "$(CHECKTEXMF)/tex/latex/beamer-floral/"; \
 	  cp "$(TIKZFLORA)/tex/tikzflora.sty" "$(TIKZFLORA)/tex/tikzflora-boot.lua" "$(CHECKTEXMF)/tex/latex/tikzflora/"; \
 	  cp -R "$(TIKZFLORA)/lua" "$(CHECKTEXMF)/tex/latex/tikzflora/"; \
 	else \
